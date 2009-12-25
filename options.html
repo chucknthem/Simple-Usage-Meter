@@ -1,0 +1,83 @@
+<html>
+	<head><title>Internet Usage Meter</title></head>
+	<style>
+		body {
+			background-color:#CCDDFF;
+		}
+		#wrapper {
+			padding:30px;
+			width:300px;
+			height:150px;
+			border:solid 1px;
+			margin:0px auto;
+			margin-top:10%;
+			background-color:#FFF;
+		}
+	</style>
+	<script type="text/javascript">
+
+		// Saves options to localStorage.
+	function save_options() {
+		var ispSelect = document.getElementById("isp");
+		var isp = ispSelect.children[ispSelect.selectedIndex].value;
+
+		var username = document.getElementById("username").value;
+		var password = document.getElementById("password").value;
+
+		localStorage["isp"] = isp;
+		localStorage["username"] = username;
+		localStorage["password"] = password;
+
+		// Update status to let user know options were saved.
+		var status = document.getElementById("status");
+		status.innerHTML = "Options Saved.";
+		setTimeout(function() {
+				status.innerHTML = "";
+				}, 1000);
+	}
+
+// Restores select box state to saved value from localStorage.
+function restore_options() {
+	var isp = localStorage["isp"];
+	var username = localStorage["username"];
+	var password = localStorage["password"];
+
+	if(isp) {
+		var ispSel = document.getElementById("isp");
+		for (var i = 0; i < ispSel.children.length; i++) {
+			var child = ispSel.children[i];
+			if (child.value == isp) {
+				child.selected = "true";
+				break;
+			}
+		}
+	}
+	if(username) {
+		document.getElementById("username").value = username;
+	} 
+	if(password) {
+		document.getElementById("password").value = password;
+	}
+}
+
+</script>
+
+<body onload="restore_options()">
+	<div id="wrapper">
+		ISP: <br />
+	<select id="isp">
+		<option value="netspace">Netspace</option>
+	</select>
+	<br />
+	Username:<br />
+	<input type="text" id="username" />
+	<br />
+	Password:<br />
+	<input type="password" id="password" />
+
+	<br />
+	<button onclick="save_options()">Save</button>
+	<div id="status"></div>
+</div>
+</body>
+</html>

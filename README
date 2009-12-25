@@ -1,0 +1,8 @@
+Simple Internet Usage meter for Australian ISPs
+
+Currently only supports netspace (netspace.net.au).
+
+Version History:
+
+= version 0.1 =
+- supports netspace anytime plans

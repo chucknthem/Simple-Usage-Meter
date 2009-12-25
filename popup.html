@@ -1,0 +1,64 @@
+<style>
+	body {
+		min-width:150px;
+		overflow-x:hidden;
+	}
+</style>
+<script>
+
+	/*
+	 * nestpace isp
+	 */
+	 function netspace(obj) { 
+		req = new XMLHttpRequest();
+
+		url = "https://" + obj.username + ":" + obj.password + 
+			"@usage.netspace.net.au/usage-meter/adslusage?version=4&granularity=MONTH";
+		req.open("POST", url, true);
+		req.onload = function() {
+			if(req.status == 200) {
+				var xml = req.responseXML;
+				var enddatestr = xml.getElementsByTagName("END_DATE")[0].childNodes[0].nodeValue.split('-');
+
+				var today = new Date();
+				var enddate = new Date(enddatestr[2], enddatestr[1] - 1, enddatestr[0])
+				var daysleft = (enddate.getTime() - today.getTime())/(1000*60*60*24)
+				
+				var limitmb = xml.getElementsByTagName("PLAN")[0].getElementsByTagName("MEGABYTES")[0].childNodes[0].nodeValue;
+				var usagemb = xml.getElementsByTagName("TRAFFIC")[0].getElementsByTagName("DOWNLOADS")[0].childNodes[0].nodeValue;
+
+				obj['mbleft'] = (limitmb - usagemb); 
+				obj['daysleft'] = Math.ceil(daysleft);
+				showUsage(obj);
+			} else {
+				showUsage("Couldn't retrieve the usage information, make sure you enter your login details in the options first");
+			}
+		};
+		req.send(null);
+	}
+
+	function showUsage(obj) {
+		var text = document.createElement("div");
+		if(obj && !obj.error) {
+			text.innerHTML = obj.mbleft + "Mb left. resets in " + Math.ceil(obj.daysleft) +" days";
+		} else {
+			text.innerHTML = "could not load usage information";	
+		}
+		document.body.appendChild(text);
+	}
+
+	function UsageParam(username, password) {
+		this.error = null;
+		this.mbleft = 0;
+		this.daysleft=0;
+		this.username = username;
+		this.password = password;
+	};
+	param = new UsageParam(localStorage['username'], localStorage['password']);
+	if(localStorage["isp"] == "netspace") {
+		netspace(param);
+	} else {
+		showUsage("No account details, enter your ISP login details in the options");
+	}
+
+</script>
