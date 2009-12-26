@@ -1,6 +1,6 @@
 {
 	"name": "Simple Usage Meter *beta*",
-		"version": "0.2",
+		"version": "0.2.1",
 		"description": "Internet usage meter for netspace ISP",
 		"icons": {"128" :"icon.png"},
 		"browser_action": {
