@@ -4,5 +4,7 @@ Currently only supports netspace (netspace.net.au).
 
 Version History:
 
+= version 0.2 =
+- supports netspace on/off peak plans
 = version 0.1 =
 - supports netspace anytime plans
