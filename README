@@ -2,9 +2,24 @@ Simple Internet Usage meter for Australian ISPs
 
 Currently only supports netspace (netspace.net.au).
 
-Version History:
 
+VERSION HISTORY
+
+= version 0.3 =
+- block data support for netspace
+- extra error checking for xmlhttprequest return codes
 = version 0.2 =
 - supports netspace on/off peak plans
 = version 0.1 =
 - supports netspace anytime plans
+
+
+TODO
+- cache results so they're fetched at most once every half hour
+- encrypt passwords in storage
+- support iiNet
+- support Optus
+- support TPG
+- support Internode
+- support Exetel
+- support Telstra
