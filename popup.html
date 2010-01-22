@@ -43,21 +43,38 @@
 	}
 
 	function showUsage(data) {
-		var divEl = document.createElement("div");
+		var divEl = document.getElementById("maindiv");
+		divEl.innerHTML = "";
 		if(data != null && !data[0].error) {
+			var tbl = document.createElement("table");
+			tbl.style.width = '100px';
+			tbl.style.backgroundColor = "#000";
 			for(var i = 0; i < data.length; i++) {
+				var trow = tbl.insertRow(i)
 				var text = document.createElement("p");
+				var freetcol = trow.insertCell(0);
+				var usedtcol = trow.insertCell(1);
+				usedtcol.style.backgroundColor = "#f00";
+				freetcol.style.backgroundColor = "#0f0";
+
+				var freeWidth = (data[i].limit - data[i].usagemb)/data[i].limit*100;
+				var usedWidth = 100 - freeWidth;
+
+				usedtcol.style.width = usedWidth + 'px';
+				freetcol.style.width = freeWidth + 'px';
+
 				text.innerHTML = '<b>' + data[i].name + '</b><br />';
 				text.innerHTML += (data[i].limit - data[i].usagemb) + "Mb left";
 				divEl.appendChild(text);
+				
 			}
+			divEl.appendChild(tbl);
 			var text = document.createElement("p");
 			text.innerHTML = "resets in " + Math.ceil(data[0].daysleft) + " days";
 			divEl.appendChild(text);
-			} else {
+		} else {
 			divEl.innerHTML = data[0].error;	
 		}
-		document.body.appendChild(divEl);
 	}
 
 	//data structure for isp login and xml parsing
@@ -95,5 +112,6 @@
 </script>
 </head>
 <body>
+	<div id="maindiv">loading...</div>
 </body>
 </html>
