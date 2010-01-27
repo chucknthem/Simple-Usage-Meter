@@ -11,6 +11,7 @@
    "options_page": "options.html",
    "permissions": [ 
 	"https://usage.netspace.net.au/", 
+	"http://localhost/",
 	"https://toolbox.iinet.net.au/" ],
-   "version": "0.4.1"
+   "version": "0.4.2"
 }

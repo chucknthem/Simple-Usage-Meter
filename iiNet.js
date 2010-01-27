@@ -1,6 +1,5 @@
 
 function iiNet_getFeed() {
-	//return "http://localhost/~charles/iinet_home5.xml"; //DEBUG
 	return "https://toolbox.iinet.net.au/cgi-bin/new/volume_usage_xml.cgi?username={USERNAME}&action=login&password={PASSWORD}";
 }
 /*
@@ -24,7 +23,7 @@ function iiNet_parseXML(xml) {
 	for(var i = 0; qResults; i++, qResults = nodes.iterateNext()) {
 		if(qResults.getElementsByTagName("quota_allocation").length > 0) {
 			results[i] = new Object();
-			results[i]['name'] = qResults.getElementsByTagName("name")[0].childNodes[0].nodeValue;
+			results[i]['name'] = qResults.getAttribute('classification');
 			results[i]['limit'] = parseInt(qResults.getElementsByTagName("quota_allocation")[0].childNodes[0].nodeValue);
 			results[i]['usagemb'] = parseInt(qResults.getAttribute('used')/1024/1024);
 			results[i]['daysleft'] = daysLeft;
