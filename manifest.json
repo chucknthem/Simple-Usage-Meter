@@ -1,14 +1,16 @@
 {
-	"name": "Simple Usage Meter *beta*",
-		"version": "0.3.3",
-		"description": "Internet usage meter for netspace ISP",
-		"icons": {"128" :"icon.png"},
-		"browser_action": {
-			"default_icon": "icon.png",
-			"popup": "popup.html"
-		},
-		"options_page": "options.html",
-		"permissions": [
-			"https://usage.netspace.net.au/"
-		]
+   "browser_action": {
+      "default_icon": "icon.png",
+      "popup": "popup.html"
+   },
+   "description": "Internet usage meter for netspace and iiNet",
+   "icons": {
+      "128": "icon.png"
+   },
+   "name": "Simple Usage Meter *beta*",
+   "options_page": "options.html",
+   "permissions": [ 
+	"https://usage.netspace.net.au/", 
+	"https://toolbox.iinet.net.au/" ],
+   "version": "0.4.1"
 }

@@ -5,19 +5,22 @@ Currently only supports netspace (netspace.net.au).
 
 VERSION HISTORY
 
+= version 0.4 =
+ - limited iiNet support
+ - cache usage data and fetch every 30 minutes
 = version 0.3 =
-- block data support for netspace
-- extra error checking for xmlhttprequest return codes
+ - block data support for netspace
+ - extra error checking for xmlhttprequest return codes
+ - added usage bar graphics
 = version 0.2 =
-- supports netspace on/off peak plans
+ - supports netspace on/off peak plans
 = version 0.1 =
-- supports netspace anytime plans
+ - supports netspace anytime plans
 
 
 TODO
-- cache results so they're fetched at most once every half hour
 - encrypt passwords in storage
-- support iiNet
+- full support iiNet
 - support Optus
 - support TPG
 - support Internode

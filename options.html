@@ -27,6 +27,8 @@
 		localStorage["isp"] = isp;
 		localStorage["username"] = username;
 		localStorage["password"] = password;
+		localStorage.removeItem('cache');
+		localStorage.removeItem('cacheTime');
 
 		// Update status to let user know options were saved.
 		var status = document.getElementById("status");

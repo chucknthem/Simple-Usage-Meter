@@ -18,39 +18,77 @@
 		var error = new Array();
 		error[0] = new Object();
 		error[0].error = msg;
+		return error;
 	}
-
+	function debugDisplay(msg) {
+		var pEl = document.createElement("p");
+		pEl.innerHTML = msg;
+		document.body.appendChild(pEl);
+	}
+	/**
+	 * save usageData into localStorage cache
+	 */
+	function saveUsageData(data) {
+		var jsonStr = window.JSON.stringify(data);
+		localStorage['cache'] = jsonStr;
+		localStorage['cacheTime'] = (new Date()).getTime();
+	}
+	/**
+	 * load usage data from local storage
+	 * returns null if cache has expired or if no cache found
+	 */
+	function loadUsageData() {
+		var data = null;
+		if(localStorage['cacheTime']) {
+			var curTime = (new Date()).getTime();
+			var minutes = (curTime - localStorage['cacheTime'])/1000/60;
+			if(minutes <= 30) {
+				data = window.JSON.parse(localStorage['cache']);
+			} 
+		}
+		return data;
+	}
 	/************************************************************
 	* 
 	*
 	************************************************************/
+	/*
+	 * load usage information from cache and display usage information on the page
+	 * if no cache is found, then usage info is fetched from the ISP xml usage feed
+	 * newly fetched usage feed will be saved into the cache
+	 */
 	function fetchAndDisplay(params) {
-		req = new XMLHttpRequest();
+		var usageData = loadUsageData();
+		if(!usageData) {
+			req = new XMLHttpRequest();
 
-		req.open("POST", params.getURL(), true);
-		req.onload = function() {
-			var data;
-			if(req.status == 200) {
-				data = params.parse(req.responseXML);
-			} else {
-				data = new Array();
-				data[0] = new Object();
-				data[0].error = "error " + req.status + ":failed to retrieve usage data, make sure your login information is correct.";
+			req.open("POST", params.getURL(), true);
+			req.onload = function() {
+				var data;
+				if(req.status == 200) {
+					data = params.parse(req.responseXML);
+				} else {
+					data = mkError("error " + req.status + ":failed to retrieve usage data, make sure your login information is correct.");
+				}
+				saveUsageData(data);
+				showUsage(data);
 			}
-			showUsage(data);
+			req.send(null);
+		} else {
+			showUsage(usageData);
 		}
-		req.send(null);
 	}
 
 	function showUsage(data) {
 		var divEl = document.getElementById("maindiv");
 		divEl.innerHTML = "";
-		if(data != null && !data[0].error) {
-			var tbl = document.createElement("table");
-			tbl.style.width = '100px';
-			tbl.style.backgroundColor = "#000";
+		if(data != null && data[0].error == null) {
 			for(var i = 0; i < data.length; i++) {
-				var trow = tbl.insertRow(i)
+				var tbl = document.createElement("table");
+				tbl.style.width = '100px';
+				tbl.style.backgroundColor = "#000";
+
+				var trow = tbl.insertRow(0);
 				var text = document.createElement("p");
 				var freetcol = trow.insertCell(0);
 				var usedtcol = trow.insertCell(1);
@@ -65,10 +103,10 @@
 
 				text.innerHTML = '<b>' + data[i].name + '</b><br />';
 				text.innerHTML += (data[i].limit - data[i].usagemb) + "Mb left";
+
 				divEl.appendChild(text);
-				
+				divEl.appendChild(tbl);
 			}
-			divEl.appendChild(tbl);
 			var text = document.createElement("p");
 			text.innerHTML = "resets in " + Math.ceil(data[0].daysleft) + " days";
 			divEl.appendChild(text);
@@ -96,6 +134,11 @@
 		this.parse = window[isp + "_parseXML"];
 	};
 
+</script>
+</head>
+<body>
+	<div id="maindiv">loading...</div>
+<script>
 	//main entry point
 	if(localStorage['isp']) {
 		c_loadjs(localStorage['isp']+'.js', function() {
@@ -104,14 +147,10 @@
 			fetchAndDisplay(params);
 		});
 	} else {
-		var data = new Object();
-		data['error'] = "No account details, enter your ISP login details in the options";
+		var data = mkError("error: No account details, enter your ISP login details in the options");
 		showUsage(data);
 	}
 
 </script>
-</head>
-<body>
-	<div id="maindiv">loading...</div>
 </body>
 </html>
