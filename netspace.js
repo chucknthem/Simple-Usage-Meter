@@ -1,5 +1,9 @@
-function netspace_getFeed() {
-	return "https://{USERNAME}:{PASSWORD}@usage.netspace.net.au/usage-meter/adslusage?version=3&granularity=MONTH";
+function netspace_getConfig() {
+	var cfg = new Object();
+	cfg.url = "https://{USERNAME}:{PASSWORD}@usage.netspace.net.au/usage-meter/adslusage?version=3&granularity=MONTH";
+	cfg.requestType = "POST";
+	cfg.requestParams = null;
+	return cfg;
 }
 /*
  * get topup limits for netspace plans

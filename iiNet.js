@@ -1,6 +1,10 @@
 
-function iiNet_getFeed() {
-	return "https://toolbox.iinet.net.au/cgi-bin/new/volume_usage_xml.cgi?username={USERNAME}&action=login&password={PASSWORD}";
+function iiNet_getConfig() {
+	var cfg = new Object();
+	cfg.url = "https://toolbox.iinet.net.au/cgi-bin/new/volume_usage_xml.cgi?username={USERNAME}&action=login&password={PASSWORD}";
+	cfg.requestType = "GET";
+	cfg.requestParams = null;
+	return cfg;
 }
 /*
  * iiNet isp

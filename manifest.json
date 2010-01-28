@@ -10,8 +10,8 @@
    "name": "Simple Usage Meter *beta*",
    "options_page": "options.html",
    "permissions": [ 
-	"https://usage.netspace.net.au/", 
-	"http://localhost/",
-	"https://toolbox.iinet.net.au/" ],
-   "version": "0.4.3"
+		"https://usage.netspace.net.au/", 
+		"https://toolbox.iinet.net.au/" 
+	],
+   "version": "0.4.4"
 }

@@ -7,6 +7,7 @@
 	}
 </style>
 <script>
+	DEBUG_MODE = false;
 	function c_loadjs(fname, load_call) {
 		var escript = document.createElement('script');
 		escript.setAttribute('type', 'text/javascript');
@@ -21,9 +22,11 @@
 		return error;
 	}
 	function debugDisplay(msg) {
-		var pEl = document.createElement("p");
-		pEl.innerHTML = msg;
-		document.body.appendChild(pEl);
+		if(DEBUG_MODE) {
+			var pEl = document.createElement("p");
+			pEl.innerHTML = msg;
+			document.body.appendChild(pEl);
+		}
 	}
 	/**
 	 * save usageData into localStorage cache
@@ -62,7 +65,7 @@
 		if(!usageData) {
 			req = new XMLHttpRequest();
 
-			req.open("POST", params.getURL(), true);
+			req.open(params.requestType, params.url, true);
 			req.onload = function() {
 				var data;
 				if(req.status == 200) {
@@ -73,7 +76,9 @@
 				saveUsageData(data);
 				showUsage(data);
 			}
-			req.send(null);
+			req.send(params.requestParams);
+			debugDisplay(params.requestType + " to " + params.url + 
+				" with params " + params.requestParams); 
 		} else {
 			showUsage(usageData);
 		}
@@ -123,13 +128,16 @@
 		this.isp = isp;
 		this.username = username;
 		this.password = password;
-		//list of known isp xml feeds
-		this.feeds = new Object();
-		this.feeds[isp] = eval(isp+'_getFeed()');
 
-		this.getURL = function() {
-			return this.feeds[this.isp].replace('{USERNAME}', this.username).replace('{PASSWORD}', this.password);
+		var cfg = eval(isp + '_getConfig()');
+		this.url = cfg.url.replace('{USERNAME}', this.username).replace('{PASSWORD}', this.password);
+		this.requestType = cfg.requestType;
+
+		this.requestParams = null;
+		if(cfg.requestParams) {
+			this.requestParams = cfg.requestParams.replace('{USERNAME}', this.username).replace('{PASSWORD}', this.password);
 		}
+
 		//parse xml function for each ISP defined globally
 		this.parse = window[isp + "_parseXML"];
 	};
