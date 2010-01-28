@@ -10,6 +10,13 @@ function iiNet_parseXML(xml) {
 	if(!xml) {
 		return mkError("error: invalid xml");
 	}
+	var errorResults  =xml.evaluate('/ii_feed/error', xml, null, XPathResult.ANY_TYPE,null).iterateNext();
+
+	if (errorResults){
+		var errorMessage = errorResults.childNodes[0].nodeValue;
+		return mkError(errorMessage);
+	}
+
 	var qResults = xml.evaluate('/ii_feed/volume_usage/quota_reset/days_remaining', xml, null, XPathResult.ANY_TYPE,null).iterateNext();
 	var daysLeft = 0;
 	if(qResults) {
