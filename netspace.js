@@ -35,42 +35,39 @@ function netspace_parseXML(xml) {
 	var enddatestr = xml.documentElement.getAttribute('END_DATE');
 
 	if(!enddatestr) {
-
 		return mkError("END_DATE not found. invalid XML");
 	} 
 	enddatestr = enddatestr.split('-');
 
 	var today = new Date();
-	var enddate = new Date(enddatestr[2], enddatestr[1] - 1, enddatestr[0])
-		var daysleft = (enddate.getTime() - today.getTime())/(1000*60*60*24)
+	var enddate = new Date(enddatestr[2], enddatestr[1] - 1, enddatestr[0]);
+	var daysleft = (enddate.getTime() - today.getTime())/(1000*60*60*24);
 
 
-		//normal limits
-		var plan = xml.getElementsByTagName("PLAN");
-	if(!plan) {
-		return mkError("PLAN not found. invalid XML");
+	//normal limits
+	var limitNodes = xml.evaluate('/USAGE/PLAN/LIMIT', xml, null, XPathResult.ANY_TYPE, null);
+	if(!limitNodes) {
+		return mkError("invalid XML. /USAGE/PLAN/LIMIT not found");
 	}
 
-	var limits = plan[0].getElementsByTagName("LIMIT");
-	if(!limits) {
-		return mkError("LIMIT not found. invalid XML");
-	}
-	var traffic = xml.getElementsByTagName("TRAFFIC");
-	if(!traffic) {
-		return mkError("TRAFFIC not found. invalid XML");
-	}
-	var data = traffic[0].getElementsByTagName("DATA");
-	if(!data) {
-		return mkError("DATA not found. invalid XML");
-	}
 	var blockLimits = xml.getElementsByTagName("DATABLOCKS");
 	if(blockLimits) {
 		blockLimits = blockLimits[0].getElementsByTagName("LIMIT");
 	}
-	for(var i = 0; i < limits.length; i++) {
-		var limitName = limits[i].getAttribute("NAME");
-		var limitmb = parseInt(limits[i].getAttribute("MEGABYTES"));
-		var usagemb = parseInt(data[i].getAttribute("DOWNLOADS"));
+
+	
+	for(var i = 0, limitResults = limitNodes.iterateNext(); 
+			limitResults; 
+			i++, limitResults = limitNodes.iterateNext()) {
+
+		var limitName = limitResults.getAttribute("NAME");
+		var limitmb = parseInt(limitResults.getAttribute("MEGABYTES"));
+
+		var dataResults = xml.evaluate(
+				"/USAGE/TRAFFIC/DATA[@TYPE='" + limitName + "']", 
+				xml, null, XPathResult.ANY_TYPE, null
+				).iterateNext();
+		var usagemb = parseInt(dataResults.getAttribute("DOWNLOADS"));
 
 		if(blockLimits) {
 			limitmb += netspace_getBlockLimits(limitName, blockLimits);
