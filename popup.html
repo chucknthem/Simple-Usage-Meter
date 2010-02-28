@@ -60,31 +60,38 @@
 	 * if no cache is found, then usage info is fetched from the ISP xml usage feed
 	 * newly fetched usage feed will be saved into the cache
 	 */
-	function fetchAndDisplay(params) {
-		var usageData = loadUsageData();
-		if(!usageData) {
-			req = new XMLHttpRequest();
+	 function fetchAndDisplay(params) {
+		 var usageData = loadUsageData();
+		 if(!usageData) {
+			 if(params.custom) {
+				 params.customFetch(params, showUsage);
+			 } 
+			 else {
+				 req = new XMLHttpRequest();
 
-			req.open(params.requestType, params.url, true);
-			req.onload = function() {
-				var data;
-				if(req.status == 200) {
-					data = params.parse(req.responseXML);
-				} else {
-					data = mkError("error " + req.status + ":failed to retrieve usage data, make sure your login information is correct.");
-				}
-				saveUsageData(data);
-				showUsage(data);
-			}
-			req.send(params.requestParams);
-			debugDisplay(params.requestType + " to " + params.url + 
-				" with params " + params.requestParams); 
-		} else {
-			showUsage(usageData);
-		}
-	}
+				 req.open(params.requestType, params.url, true);
+				 req.onload = function() {
+					 if(req.status == 200) {
+						 usageData = params.parse(req.responseXML);
+					 } 
+					 else {
+						 usageData = mkError("error " + req.status + ":failed to retrieve usage data, make sure your login information is correct.");
+					 }
+					 saveUsageData(usageData);
+					 showUsage(usageData);
+				 }
+				 req.send(params.requestParams);
+				 debugDisplay(params.requestType + " to " + params.url + 
+				 " with params " + params.requestParams); 
+			 }
+		 } 
+		 else {
+			 showUsage(usageData);
+		 }
+	 }
 
 	function showUsage(data) {
+		saveUsageData(data); //TODO duplicate code in fetch and display, but usefull for ISPs with custom login requirements
 		var divEl = document.getElementById("maindiv");
 		divEl.innerHTML = "";
 		if(data != null && data[0].error == null) {
@@ -128,18 +135,25 @@
 		this.isp = isp;
 		this.username = username;
 		this.password = password;
+		this.custom = false;
 
 		var cfg = eval(isp + '_getConfig()');
-		this.url = cfg.url.replace('{USERNAME}', this.username).replace('{PASSWORD}', this.password);
-		this.requestType = cfg.requestType;
-
-		this.requestParams = null;
-		if(cfg.requestParams) {
-			this.requestParams = cfg.requestParams.replace('{USERNAME}', this.username).replace('{PASSWORD}', this.password);
+		if(typeof(cfg.custom) == 'undefined') {
+			this.url = cfg.url.replace('{USERNAME}', this.username).replace('{PASSWORD}', this.password);
+			this.requestType = cfg.requestType;
+			this.requestParams = null;
+			if(cfg.requestParams) {
+				this.requestParams = cfg.requestParams.replace('{USERNAME}', this.username).replace('{PASSWORD}', this.password);
+			}
+			//parse xml function for each ISP defined globally
+			this.parse = window[isp + "_parseXML"];
+		} 
+		else {
+			this.custom = true;
+			this.customFetch = window[isp + "_fetchData"];
 		}
 
-		//parse xml function for each ISP defined globally
-		this.parse = window[isp + "_parseXML"];
+
 	};
 
 </script>
