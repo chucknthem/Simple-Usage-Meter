@@ -61,7 +61,6 @@
 	 * newly fetched usage feed will be saved into the cache
 	 */
 	 function fetchAndDisplay(params) {
-		 var starttime = new Date();
 		 var usageData = loadUsageData();
 		 if(!usageData) {
 			 if(params.custom) {
@@ -72,19 +71,9 @@
 				 req.open(params.requestType, params.url, true);
 				 req.onload = function() {
 					 if(req.status == 200) {
-						 var ctype = req.getResponseHeader("Content-Type");
-						 debugDisplay(ctype);
-						 var timetaken = new Date()-starttime;
-						 debugDisplay(params.requestType + " to " + params.url + " with params " + params.requestParams + " completed with status " + req.status + " in " + timetaken + "ms");
-						 if (ctype == "text/html; charset=UTF-8") {
-							 debugDisplay(req.responseText);
-							 //TODO: missing code
-							 //usageData = params.parse(req.responseText);
-						 } else {
-						 	 usageData = params.parse(req.responseXML);
-						 }
-					 
-					 } else {
+						 usageData = params.parse(req.responseText);
+					 } 
+					 else {
 						 usageData = mkError("error " + req.status + ":failed to retrieve usage data, make sure your login information is correct.");
 					 }
 					 saveUsageData(usageData);

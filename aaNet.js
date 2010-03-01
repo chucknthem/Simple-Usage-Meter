@@ -17,7 +17,7 @@ function aaNet_getConfig() {
  */
 function aaNet_fetchData(params, showUsageCallback) {
 	alert('aaNet is not supported yet, but it will be soon!');//DEBUG delete this when things are working ;)
-	//TODO put code to login to aaNet and fetch data here
+	//TODO unused custom login/fetch code...
 }
 
 
@@ -26,15 +26,15 @@ function aaNet_fetchData(params, showUsageCallback) {
  * usage3.php contains: "\n0,25816905581,2010-02-28 08:17:20,18,76800,ADSL2+,ADSL2 150G";
  * upload,downloads (bytes),current date,billing day,limit(megabytes),plan type,plan name
  */
-function aaNet_parseXML(xml) {
- if(!xml) {
+function aaNet_parseXML(text) {
+ if(!text) {
   return mkError("Nothing to parse");
  } else {
   // Strip that line break
-  xml = xml.replace(/^\s+|\s+$/g,"");
+  text = text.replace(/^\s+|\s+$/g,"");
   // Split the CSV data into an array called 'v'
   v = new Array();
-  v = xml.split(",");
+  v = text.split(",");
   // aaNet quota is clearly defined
   var limitmb = v[4];
   // aaNet usage is the greater of downloads or uploads
@@ -46,7 +46,7 @@ function aaNet_parseXML(xml) {
 
   // Determine how many days are left in the billing cycle
   var today = new Date();
-  var date = d.getDate();
+  var date = today.getDate();
   var year = today.getFullYear();
   if (date < v[3]) {  var month = today.getMonth(); }
   else { var month = today.getMonth()+1; } 

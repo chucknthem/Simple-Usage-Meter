@@ -5,6 +5,8 @@ Currently only supports netspace (netspace.net.au).
 
 VERSION HISTORY
 
+= 0.4.5 =
+ - support for aaNet thanks to Lukian
 = version 0.4 =
  - limited iiNet support
  - cache usage data and fetch every 30 minutes

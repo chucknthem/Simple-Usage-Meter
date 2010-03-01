@@ -30,7 +30,8 @@ function netspace_getBlockLimits(name, limits) {
  * nestpace isp
  * @param xml root xml document with USAGE as the first node
  */
-function netspace_parseXML(xml) { 
+function netspace_parseXML(text) { 
+	var xml = (new DOMParser()).parseFromString(text, "text/xml");
 	var results = new Array();
 	var enddatestr = xml.documentElement.getAttribute('END_DATE');
 

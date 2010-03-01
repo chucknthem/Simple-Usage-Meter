@@ -9,7 +9,8 @@ function iiNet_getConfig() {
 /*
  * iiNet isp
  */
-function iiNet_parseXML(xml) {
+function iiNet_parseXML(text) {
+	var xml = (new DOMParser()).parseFromString(text, "text/xml");
 	var results = new Array();
 	if(!xml) {
 		return mkError("error: invalid xml");
