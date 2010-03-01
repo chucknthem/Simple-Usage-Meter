@@ -3,7 +3,7 @@
       "default_icon": "icon.png",
       "popup": "popup.html"
    },
-   "description": "Internet usage meter for netspace and iiNet",
+   "description": "Internet usage meter for Australian ISPs. Supporting aaNet, iiNet, Netspace and more to come.",
    "icons": {
       "128": "icon.png"
    },
@@ -11,7 +11,8 @@
    "options_page": "options.html",
    "permissions": [ 
 		"https://usage.netspace.net.au/", 
-		"https://toolbox.iinet.net.au/" 
-	],
-   "version": "0.4.4"
+		"https://toolbox.iinet.net.au/",
+		"https://www.aanet.com.au/"
+ 	],
+   "version": "0.4.5"
 }

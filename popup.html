@@ -7,7 +7,7 @@
 	}
 </style>
 <script>
-	DEBUG_MODE = false;
+	DEBUG_MODE = true;
 	function c_loadjs(fname, load_call) {
 		var escript = document.createElement('script');
 		escript.setAttribute('type', 'text/javascript');
@@ -61,37 +61,44 @@
 	 * newly fetched usage feed will be saved into the cache
 	 */
 	 function fetchAndDisplay(params) {
+		 var starttime = new Date();
 		 var usageData = loadUsageData();
 		 if(!usageData) {
 			 if(params.custom) {
 				 params.customFetch(params, showUsage);
-			 } 
-			 else {
+			 } else {
 				 req = new XMLHttpRequest();
 
 				 req.open(params.requestType, params.url, true);
 				 req.onload = function() {
 					 if(req.status == 200) {
-						 usageData = params.parse(req.responseXML);
-					 } 
-					 else {
+						 var ctype = req.getResponseHeader("Content-Type");
+						 debugDisplay(ctype);
+						 var timetaken = new Date()-starttime;
+						 debugDisplay(params.requestType + " to " + params.url + " with params " + params.requestParams + " completed with status " + req.status + " in " + timetaken + "ms");
+						 if (ctype == "text/html; charset=UTF-8") {
+							 debugDisplay(req.responseText);
+							 //TODO: missing code
+							 //usageData = params.parse(req.responseText);
+						 } else {
+						 	 usageData = params.parse(req.responseXML);
+						 }
+					 
+					 } else {
 						 usageData = mkError("error " + req.status + ":failed to retrieve usage data, make sure your login information is correct.");
 					 }
 					 saveUsageData(usageData);
 					 showUsage(usageData);
 				 }
 				 req.send(params.requestParams);
-				 debugDisplay(params.requestType + " to " + params.url + 
-				 " with params " + params.requestParams); 
 			 }
-		 } 
-		 else {
+		 } else {
 			 showUsage(usageData);
 		 }
 	 }
 
 	function showUsage(data) {
-		saveUsageData(data); //TODO duplicate code in fetch and display, but usefull for ISPs with custom login requirements
+		saveUsageData(data); //TODO duplicate code in fetch and display, but useful for ISPs with custom login requirements
 		var divEl = document.getElementById("maindiv");
 		divEl.innerHTML = "";
 		if(data != null && data[0].error == null) {
@@ -113,7 +120,7 @@
 				usedtcol.style.width = usedWidth + 'px';
 				freetcol.style.width = freeWidth + 'px';
 
-				text.innerHTML = '<b>' + data[i].name + '</b><br />';
+				text.innerHTML = '<b>' + data[i].name + '</b><br>';
 				text.innerHTML += (data[i].limit - data[i].usagemb) + "Mb left";
 
 				divEl.appendChild(text);
@@ -152,8 +159,6 @@
 			this.custom = true;
 			this.customFetch = window[isp + "_fetchData"];
 		}
-
-
 	};
 
 </script>
