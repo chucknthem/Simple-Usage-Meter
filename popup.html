@@ -1,9 +1,28 @@
 <html>
-	<head>
+<head>
 <style>
 	body {
-		min-width:150px;
+		min-width:205px;
 		overflow-x:hidden;
+	}
+	h1{ font-size: 12pt; text-align:center; }
+	p{ font-size: 10pt; }
+
+	table.usagemeter{border-collapse: collapse;border:1px solid #333;}
+
+	abbr{
+		border-bottom:1px dotted #000;
+		cursor:help;
+	}
+	td{font-size:8pt;}
+	th{font-size:8pt;align:left;width:100px;text-align:left;}
+	#pc{
+		text-align:right;
+		width:100%;
+	}
+	.used{
+		color:#fff;
+		text-shadow:#000 1px 1px 2px;
 	}
 </style>
 <script>
@@ -86,38 +105,217 @@
 		 }
 	 }
 
+
+	function getLastDayOfMonth(month,year) {
+		var days;
+		switch(month+1)	{
+			case 1 :
+			case 3 :
+			case 5 :
+			case 7 :
+			case 8 :
+			case 10:
+			case 12:
+				days = 31;
+				break;
+			case 4 :
+			case 6 :
+			case 9 :
+			case 11:
+			   	days = 30;
+				break;
+			case 2 :
+				if( ( (year % 4 == 0) && ( year % 100 != 0) ) 
+        	                   || (year % 400 == 0) )
+					days = 29;
+				else
+					days = 28;
+				break;
+		}
+		return days;
+	}
+
+	// So do we want real gigabytes or majority ISP gigabytes?
+	// Explicitly declare GB and formats until we add user customisable settings for it.
+	var byteformat = 'GB';
+	var suffix=true;
+	var gbformat = localStorage["gbformat"];
+	// Round gigabyte values to one decimal place?
+	var rnd=true;
+
+	var fB = function (v,force) {
+		if (byteformat == 'GB' || force == 'GB') {
+			if (rnd==true){newv = Math.round(v/gbformat*10)/10;}
+			else { newv = Math.round(v/gbformat) }
+			if (suffix==true) { newv = newv + ' GB';}
+		} 
+		if (force=='MB'&&suffix==true) {newv = v+' MB';}
+		else if (byteformat=='MB'&&suffix==true){ newv = v+' MB';}
+		return newv;
+	}
+
+	// Set usage meter width
+	var usagemeterwidth = 200;
+
 	function showUsage(data) {
-		saveUsageData(data); //TODO duplicate code in fetch and display, but useful for ISPs with custom login requirements
+		saveUsageData(data);
 		var divEl = document.getElementById("maindiv");
 		divEl.innerHTML = "";
+
 		if(data != null && data[0].error == null) {
 			for(var i = 0; i < data.length; i++) {
+
+				//For testing: Pretend we're in line, in deficit or over quota
+				//data[i].usagemb = 76000; //28746+8415;
+
+				// Define variables
+				var daysleft = data[0].daysleft;
+				var pc = Math.round((data[i].usagemb/data[i].limit)*100);
+				var remaining = (data[i].limit - data[i].usagemb);
+				var dataperday = Math.round(remaining/daysleft);
+
+				// Days in the current month
+				var today = new Date();
+				var year = today.getYear();
+				var month = today.getMonth();
+				var hour = today.getHours();
+				var daysinmonth = getLastDayOfMonth(month,year);
+				
+				// Calculate the target surplus/deficit
+				// Trying to do maths (MATH) while drinking vodka+wicked is hard
+				var expectedusageperday = Math.round(data[i].limit/daysinmonth);
+				var currentusageperday = Math.round(data[i].usagemb/(daysinmonth-daysleft));
+				var target = (expectedusageperday-currentusageperday)*(daysinmonth-daysleft);
+				var targetastime = Math.round(target/expectedusageperday);
+
+				// Grammarian corrections for human readability of target
+				if(target<0) {targetastime = targetastime*-1;}
+				if(targetastime==0) {targetreadable = 'day';}
+				else if(targetastime==1) {targetreadable = '1 day';}
+				var targetreadable = targetastime + ' days';
+
+				// Update the Chrome extension "badge"
+				var badge = {};
+				//TODO: The content of the badge needs to be a user option in options.html
+				var badgeDisplay = "Target";
+				switch(badgeDisplay){
+					case "Quota Remaining": badgeContent = remaining/gbformat+''; break;
+					case "Percent Used": badgeContent = pc+'%'; break;
+					case "Target": badgeContent = Math.round(target/1024)+''; break;
+				}
+				badge.text = badgeContent;
+				chrome.browserAction.setBadgeText(badge);
+
+				// Create the 'usage meter'
 				var tbl = document.createElement("table");
-				tbl.style.width = '100px';
-				tbl.style.backgroundColor = "#000";
-
+				tbl.className = 'usagemeter';
+				tbl.style.width = usagemeterwidth+'px';
+				tbl.style.height = '20px';
+				tbl.style.backgroundColor = "#fff";
 				var trow = tbl.insertRow(0);
-				var text = document.createElement("p");
-				var freetcol = trow.insertCell(0);
-				var usedtcol = trow.insertCell(1);
-				usedtcol.style.backgroundColor = "#f00";
-				freetcol.style.backgroundColor = "#0f0";
-
-				var freeWidth = (data[i].limit - data[i].usagemb)/data[i].limit*100;
-				var usedWidth = 100 - freeWidth;
-
+				var usedtcol = trow.insertCell(0);
+				var freeWidth = (data[i].limit - data[i].usagemb)/data[i].limit*usagemeterwidth;
+				var usedWidth = usagemeterwidth - freeWidth;
+				if (pc<100) {
+					var freetcol = trow.insertCell(1);
+					freetcol.style.backgroundColor = "#fff";
+					freetcol.style.backgroundImage = "url(bar_empty.svg)";
+					freetcol.style.width = freeWidth + 'px';
+				}
+				if (pc<90) { freetcol.innerHTML = "<div id='pc'>"+pc+"%</div>"; }
+				else { usedtcol.innerHTML = "<div id='pc' class='used'>"+pc+"%</div>"; }
 				usedtcol.style.width = usedWidth + 'px';
-				freetcol.style.width = freeWidth + 'px';
 
-				text.innerHTML = '<b>' + data[i].name + '</b><br>';
-				text.innerHTML += (data[i].limit - data[i].usagemb) + "Mb left";
+				// Deficit or Surplus? Red or Green, Remove negative numbers + write help
+				if (target<0) {
+					usedtcol.style.backgroundImage="url(bar_deficit.svg)";
+					targettype = "Deficit"; targetcolor='red'; var usedbgcolor = 'red';
+					target = target*-1; 
+					abbrtext = 'Minimal quota usage for the next '
+					+targetreadable+' will bring you back within your limit.';
+					// Make the badge red, because we're in deficit!
+					badgeColor = {}
+					badgeColor.color = new Array(255, 0, 0, 100);
+					chrome.browserAction.setBadgeBackgroundColor(badgeColor);
+				} else {
+					usedtcol.style.backgroundImage="url(bar_surplus.svg)";
+					targettype = "Surplus"; targetcolor='green'; var usedbgcolor = '#8D4';
+					abbrtext = 'Quota is in surplus. You may utilise an additional '+fB(target)+' quota ('+targetreadable+' typical usage) without adverse quota affect.';
+					// Ooooh. Green badge, all is good!
+					badgeColor = {}
+					badgeColor.color = new Array(0, 213, 7, 100);
+					chrome.browserAction.setBadgeBackgroundColor(badgeColor);
+				}
+				usedtcol.style.backgroundColor = usedbgcolor;
+		
 
-				divEl.appendChild(text);
+
+				// Arrow displaying how much time in the month has elapsed
+				var indicator = document.createElement("img");
+				indicator.id="indicator";
+				indicator.src="indicator.svg";
+				var remWidth = (daysleft/daysinmonth)*usagemeterwidth;
+				var elapWidth = usagemeterwidth - remWidth;
+				indicator.style.marginLeft = elapWidth-8 + 'px';
+
+				// Information on how long until the quota resets
+				// daysleft = 1.22;
+				if(daysleft<1) {
+					resetreadable = (24-hour) + ' hrs';
+				}
+				else if(daysleft<2) {
+					resetreadable = '1 day ' + (24-hour) + ' hours';
+				}
+				else {
+					resetreadable = Math.floor(daysleft)-1 + ' days ' 
+					+ Math.round(24-hour) + ' hrs';
+				}
+
+				// Additional information about the ISP and quota
+				var header = document.createElement("h1");
+				header.innerHTML = '<b>' + data[i].name + '</b><br>';
+				var content = document.createElement("table");
+				/*
+				content.innerHTML = fB(data[i].usagemb) + "/" + fB(data[i].limit)+" (" + pc + "%) <br>";
+				content.innerHTML += fB(remaining) + " ("+ (100-pc) + "%) remains<br>";
+				content.innerHTML += "<span style='color:"+targetcolor+"'>" + fB(target) 
+				+ " (<abbr title='"+abbrtext+"'>"+targetastime+"d</abbr>) "
+				+targettype+"</span><br>";
+				content.innerHTML += fB(dataperday) + " per day<br>";
+				*/
+
+				// Display in MB if values are less than 1GB
+				if (remaining<1000){ 
+					remaining = fB(remaining,'MB'); 
+					dataperday =fB(dataperday,'MB'); 
+				} else { 
+					remaining = fB(remaining); 
+					dataperday =fB(dataperday); 
+				}
+				
+
+				content.innerHTML = ""
+				+"<tr><th>Quota</th>"
+				+"<td>"+ data[i].usagemb + "/" + data[i].limit +"</td></tr>"
+				+"<tr><th>Remaining</th>"
+				+"<td>"+ remaining + " ("+ (100-pc) + "%) </td></tr>"
+				+"<tr><th></th>"
+				+"<td>"+dataperday+" per day</td></tr>"
+				+"<tr><th>Target "+targettype+"</th>"
+				+"<td><span style='color:"+targetcolor+"'>" + fB(target) 
+				+" (<abbr title='"+abbrtext+"'>"+targetastime+"d</abbr>)</span></td></tr>"
+				+"<tr><th>Time Remaining</th>"
+				+"<td>"+resetreadable+"</td></tr>";
+
+				// Testing line
+				// text.innerHTML += data[0].daysleft + " DEBUG<br>";
+
+				// Write the header, the usage meter and the content to the popup.
+				divEl.appendChild(header);
 				divEl.appendChild(tbl);
+				divEl.appendChild(indicator);
+				divEl.appendChild(content);
 			}
-			var text = document.createElement("p");
-			text.innerHTML = "resets in " + Math.ceil(data[0].daysleft) + " days";
-			divEl.appendChild(text);
 		} else {
 			divEl.innerHTML = data[0].error;	
 		}
@@ -151,6 +349,7 @@
 	};
 
 </script>
+
 </head>
 <body>
 	<div id="maindiv">loading...</div>

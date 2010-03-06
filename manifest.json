@@ -12,7 +12,8 @@
    "permissions": [ 
 		"https://usage.netspace.net.au/", 
 		"https://toolbox.iinet.net.au/",
-		"https://www.aanet.com.au/"
+		"https://www.aanet.com.au/",
+		"https://www.exetel.com.au/"
  	],
-   "version": "0.4.6"
+   "version": "0.4.7"
 }

@@ -1,5 +1,5 @@
 <html>
-	<head><title>Internet Usage Meter</title></head>
+	<head><title>Internet Usage Meter</title>
 	<style>
 		body {
 			background-color:#CCDDFF;
@@ -7,7 +7,7 @@
 		#wrapper {
 			padding:30px;
 			width:300px;
-			height:150px;
+			height:250px;
 			border:solid 1px;
 			margin:0px auto;
 			margin-top:10%;
@@ -21,12 +21,17 @@
 		var ispSelect = document.getElementById("isp");
 		var isp = ispSelect.children[ispSelect.selectedIndex].value;
 
+		var gbformatSel = document.getElementById("gbformat");
+		var gbformat = gbformatSel.children[gbformatSel.selectedIndex].value;
+
 		var username = document.getElementById("username").value;
 		var password = document.getElementById("password").value;
 
 		localStorage["isp"] = isp;
 		localStorage["username"] = username;
 		localStorage["password"] = password;
+		localStorage["gbformat"] = gbformat;
+
 		localStorage.removeItem('cache');
 		localStorage.removeItem('cacheTime');
 
@@ -38,22 +43,25 @@
 				}, 1000);
 	}
 
+function _restoreSelection(id, value) {
+	var sel = document.getElementById(id);
+	for (var i = 0; i < sel.children.length; i++) {
+		var child = sel.children[i];
+		if (child.value == value) {
+			child.selected = "true";
+			break;
+		}
+	}
+}
 // Restores select box state to saved value from localStorage.
 function restore_options() {
 	var isp = localStorage["isp"];
 	var username = localStorage["username"];
 	var password = localStorage["password"];
+	var gbformat = localStorage["gbformat"];
 
-	if(isp) {
-		var ispSel = document.getElementById("isp");
-		for (var i = 0; i < ispSel.children.length; i++) {
-			var child = ispSel.children[i];
-			if (child.value == isp) {
-				child.selected = "true";
-				break;
-			}
-		}
-	}
+	if(isp) _restoreSelection("isp", isp);
+	if(gbformat) _restoreSelection("gbformat", gbformat);
 	if(username) {
 		document.getElementById("username").value = username;
 	} 
@@ -64,20 +72,26 @@ function restore_options() {
 
 </script>
 
+</head>
 <body onload="restore_options()">
 	<div id="wrapper">
 		ISP: <br />
-	<select id="isp">
+	<select name="isp" id="isp">
 		<option value="aaNet">aaNet</option>
 		<option value="iiNet">iiNet</option>
 		<option value="netspace">Netspace</option>
 	</select>
 	<br />
 	Username:<br />
-	<input type="text" id="username" />
+	<input type="text" id="username" name="username" />
 	<br />
 	Password:<br />
-	<input type="password" id="password" />
+	<input type="password" name="password" id="password" />
+	<p><strong>Advanced Options</strong></p>
+	1GB = ?MB:<br /><select id="gbformat" name="gbformat">
+		<option value="1024">1024</option>
+		<option value="1000">1000</option>
+	</select>
 
 	<br />
 	<button onclick="save_options()">Save</button>

@@ -1,4 +1,3 @@
-
 function aaNet_getConfig() {
 	var cfg = new Object();
 	cfg.url = "https://www.aanet.com.au/usage3.php?{USERNAME},{PASSWORD}";
@@ -6,20 +5,6 @@ function aaNet_getConfig() {
 	cfg.requestParams = null;
 	return cfg;
 }
-
-/*
- * Custom Data Fetch
- * params contains username and password
- * e.g. params.username, params.password
- *
- * showUsageCallback takes the result of aaNet_parseXML as an argument
- *
- */
-function aaNet_fetchData(params, showUsageCallback) {
-	alert('aaNet is not supported yet, but it will be soon!');//DEBUG delete this when things are working ;)
-	//TODO unused custom login/fetch code...
-}
-
 
 /*
  * aaNet ISP
