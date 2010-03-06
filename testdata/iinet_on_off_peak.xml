@@ -1,0 +1,223 @@
+<ii_feed> 
+	<account_info> 
+		<plan>Naked DSL Home4</plan> 
+		<product>adsl_home V2</product> 
+	</account_info> 
+	<volume_usage> 
+		<offpeak_start>02:00</offpeak_start> 
+		<offpeak_end>08:00</offpeak_end> 
+		<quota_reset> 
+			<anniversary>21</anniversary> 
+			<days_so_far>8</days_so_far> 
+			<days_remaining>24</days_remaining> 
+		</quota_reset> 
+		<expected_traffic_types> 
+			<type classification="peak" used="10720677110"> 
+				<name>peak</name> 
+				<quota_allocation>50000</quota_allocation> 
+				<is_shaped speed="0">false</is_shaped> 
+			</type> 
+			<type classification="offpeak" used="10587833639"> 
+				<name>offpeak</name> 
+				<quota_allocation>50000</quota_allocation> 
+				<is_shaped speed="0">false</is_shaped> 
+			</type> 
+			<type classification="uploads" used="844337558"> 
+				<name>non-free</name> 
+			</type> 
+			<type classification="freezone" used="903543360"> 
+				<name>freezone</name> 
+			</type> 
+		</expected_traffic_types> 
+		<volume_usage> 
+			<day_hour period="2010-01-21"> 
+				<usage type="peak">1519976948</usage> 
+				<usage type="offpeak">3923237500</usage> 
+				<usage type="uploads">104388762</usage> 
+				<usage type="freezone">86902717</usage> 
+			</day_hour> 
+			<day_hour period="2010-01-22"> 
+				<usage type="peak">2359369433</usage> 
+				<usage type="offpeak">435454</usage> 
+				<usage type="uploads">47966501</usage> 
+				<usage type="freezone">65610095</usage> 
+			</day_hour> 
+			<day_hour period="2010-01-23"> 
+				<usage type="peak">93336645</usage> 
+				<usage type="offpeak">403075</usage> 
+				<usage type="uploads">7147778</usage> 
+				<usage type="freezone">11197696</usage> 
+			</day_hour> 
+			<day_hour period="2010-01-24"> 
+				<usage type="peak">330652935</usage> 
+				<usage type="offpeak">3395625776</usage> 
+				<usage type="uploads">69025572</usage> 
+				<usage type="freezone">10401336</usage> 
+			</day_hour> 
+			<day_hour period="2010-01-25"> 
+				<usage type="peak">2664041262</usage> 
+				<usage type="offpeak">393043</usage> 
+				<usage type="uploads">61474175</usage> 
+				<usage type="freezone">79094018</usage> 
+			</day_hour> 
+			<day_hour period="2010-01-26"> 
+				<usage type="peak">1311486113</usage> 
+				<usage type="offpeak">410483</usage> 
+				<usage type="uploads">156021612</usage> 
+				<usage type="freezone">38085452</usage> 
+			</day_hour> 
+			<day_hour period="2010-01-27"> 
+				<usage type="peak">2144190966</usage> 
+				<usage type="offpeak">3266898804</usage> 
+				<usage type="uploads">381518689</usage> 
+				<usage type="freezone">495900774</usage> 
+			</day_hour> 
+			<day_hour period="2010-01-28"> 
+				<usage type="peak">297622808</usage> 
+				<usage type="offpeak">429504</usage> 
+				<usage type="uploads">16794469</usage> 
+				<usage type="freezone">116351272</usage> 
+			</day_hour> 
+			<day_hour period="2010-01-29"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-01-30"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-01-31"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-01"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-02"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-03"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-04"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-05"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-06"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-07"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-08"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-09"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-10"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-11"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-12"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-13"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-14"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-15"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-16"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-17"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-18"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-19"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+			<day_hour period="2010-02-20"> 
+				<usage type="peak">0</usage> 
+				<usage type="offpeak">0</usage> 
+				<usage type="uploads">0</usage> 
+				<usage type="freezone">0</usage> 
+			</day_hour> 
+		</volume_usage> 
+	</volume_usage> 
+	<connections> 
+	</connections> 
+</ii_feed>

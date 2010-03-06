@@ -1,0 +1,161 @@
+root tag 
+<USAGE>
+</USAGE>
+
+underneath the root tag are tags of 
+<START_DATE></START_DATE>
+<END_DATE></END_DATE>
+<GRANULARITY></GRANULARITY>
+<VERSION></VERSION>
+<PLAN DESCRIPTION="plan description"></PLAN>
+<DATABLOCKS></DATABLOCKS>
+<TRAFFIC DESCRIPTION="description"></TRAFFIC>
+<MESSAGE ID="n"></MESSAGE>
+
+a) <START_DATE> & <END_DATE>
+Represent the start and end date of the billing period.
+both have sub attributes: <DAY></DAY><MONTH></MONTH><YEAR></YEAR>
+
+b) <GRANULARITY>
+This is how fine or coarse you want the data. At the moment, the only
+value you will get is MONTH and DAY. We might extend this one day. 
+A specific granularity can be requested using the form field in your
+post/get request of "granularity=GRAN" (where GRAN = "MONTH" or "DAY") -
+nothing at all, or a non-supported granularity will return a monthly
+granularity.
+
+c) <VERSION></VERSION>
+This basically defines the internal version of the XML (Not the version
+of this document). The version of the XML which this docuement defines
+can be found up the top of the document. If there is no version listed,
+then its version 1, which was current until version 1.9 of this document.
+You can request different versions of the XML by using a form field in
+your get/post request of "version=x" (where x is the version of the xml 
+your requesting). If none is supplied, version 1 is assumed.
+
+d) <PLAN DESCRIPTION="plan description"></PLAN>
+This defines the plan which the user is on. There is a <LIMIT></LIMIT>
+tag for every limit for the plan
+i) <LIMIT NAME="limit name" MEGABYTES="megabytes" />
+The "limit name" will be something like "Peak" , "Off Peak", etc - and
+will match the description found below. The MEGABYTES attribute will give
+a figure for the number of free megabytes for that limit.
+
+e) <DATABLOCKS></DATABLOCKS>
+This section covers blocks of data which have been purchased to "top up"
+an account for the current billing period. It has an entry for every
+timing period which is valid for the account. (see <LIMIT NAME="blah">
+above. 
+i) These tags look like <LIMIT Name="Standard"></LIMIT>. This is the 
+period for which the block was purchased. Within each limit, the actual 
+blocks of data are listed.
+I) The format is <BLOCK DATEPURCHASED="YYYY-MM-DD" MEGABYTES="999"></BLOCK>.
+This means that on the date given, the number of megabytes specificed were
+purchased for use. There can be multiple BLOCKs listed.
+
+f) <TRAFFIC DESCRIPTION="description"></TRAFFIC>
+For each type of traffic, there is a description. So at present the attribute
+for DESCRIPTION will be "Free Traffic" and "Normal Billable Traffic".
+Within the <TRAFFIC></TRAFFIC> tags, there are a number of <DATA> tags, one
+for every time and billing type (ie peak and off peak).
+i) <DATA TIMESTAMP="YYYY-MM-DD HH:MM:SS" TYPE="Billing Type"></DATA>
+The timestamp is the timestamp for the traffic being billed. For monhtly
+granularity there is one for each TYPE. In general TYPE won't change,
+however there is the possibility of new TYPEs being added. At present,
+there are three values - "Peak", "Off Peak", and "Standard" -
+"Standard" is desgined for the Lite plans which have no concept of
+"Peak" and "Off Peak". At the moment, the word "Standard" isn't
+confirmed to stay that way - check for updates to this document 
+to find what it will change to. 
+Within the <DATA></DATA> tags are <DOWNLOADS></DOWNLOADS> and 
+<UPLOADS></UPLOADS> tags. These, funnily enough, have the number of megs
+downloaded and uploaded. Note however, that UPLOADS will now be defined
+to be 0, as we are no longer providing uploaded data stats.
+
+g) <MESSAGE ID="n" TIMESTAMP="Sun Jul 14 11:03:15 2002"></MESSAGE>
+Basically, a messaging interface. This can be used by Netspace to let
+customers know information when it is applicable. Each message will have a
+unique ID field, so these can be stored so that repeat messages aren't 
+displayed each time. The timestamp will tell you when the message was put
+into the system. There are 2 elements within the <MESSAGE></MESSAGE>
+tags: a <TITLE></TITLE> tag which is the title of the message, and a 
+<TEXT></TEXT> tag which is the actual text of the message. The text will
+have all "<"'s replaced with "<" so that any tags remain intact and
+are interpreted as part of the text, not the html.
+
+Examples of data which might be included in this field: Usage meter issues,
+major outages, etc. The messages will probably be a little more verbose
+than the messages listed below in the example.
+
+So if you're requesting the following URL:
+
+https://usage.netspace.net.au/usage-meter/adslusage?version=3&granularity=MONTH
+
+you might get:
+
+<USAGE>
+<GRANULARITY>MONTH</GRANULARITY>
+<START_DATE>01-04-2002</START_DATE>
+<END_DATE>30-04-2002</END_DATE>
+<VERSION>3</VERSION>
+<DATABLOCKS>
+<LIMIT NAME="Peak">
+<BLOCK MEGABYTES="500" DatePurchased="2002-04-26" />
+<BLOCK MEGABYTES="500" DatePurchased="2002-04-27" />
+</LIMIT>
+</DATABLOCKS>
+<PLAN NAME="Home 512 Premium">
+<LIMIT NAME="Peak" MEGABYTES="4500" />
+<LIMIT NAME="Off Peak" MEGABYTES="7000" />
+</PLAN>
+<TRAFFIC DESCRIPTION="Free Traffic">
+<DATA TIMESTAMP="2002-04-01 00:00:00" TYPE="Peak">
+<DOWNLOADS>57</DOWNLOADS>
+<UPLOADS>9</UPLOADS>
+</DATA>
+<DATA TIMESTAMP="2002-04-01 00:00:00" TYPE="Off Peak">
+<DOWNLOADS>7</DOWNLOADS>
+<UPLOADS>2</UPLOADS>
+</DATA>
+</TRAFFIC>
+<TRAFFIC DESCRIPTION="Normal Billable Traffic">
+<DATA TIMESTAMP="2002-04-01 00:00:00" TYPE="Peak">
+<DOWNLOADS>3870</DOWNLOADS>
+<UPLOADS>432</UPLOADS>
+</DATA>
+<DATA TIMESTAMP="2002-04-01 00:00:00" TYPE="Off Peak">
+<DOWNLOADS>3419</DOWNLOADS>
+<UPLOADS>472</UPLOADS>
+</DATA>
+</TRAFFIC>
+<MESSAGE ID="1" TIMESTAMP="Sun Jul 14 11:03:15 2002">
+<TITLE>Outage</TITLE>
+<TEXT>There is a major outage in Melbourne at present. No ETA</TEXT>
+</MESSAGE>
+<MESSAGE ID="2" TIMESTAMP="Sun Jul 14 11:05:15 2002">
+<TITLE>Usage Meter</TITLE>
+<TEXT>The usage meter is currently not working.</TEXT>
+</MESSAGE>
+</USAGE>
+
+means that the billing period is 01-Apr-2002 to 30-Apr-2002 during that 
+period, the Normal Billable Traffic during Peak was 3870Mb downloads and 432Mb 
+uploads; Off peak was 3419Mb down and 472Mb up, and the free traffic during 
+peak was 57Mb down and 9Mb up, with 7Mb down and 2Mb up during off peak. 
+There are obviously 2 messages included in there, and the plan details are 
+listed up the top as being on the 512k plan, which has 4500Mb of peak downloads,
+and 7000Mb of off peak downloads available in total. The version of the
+returned XML is 3. The user has also purchased 2 data blocks for their Peak 
+usage period - of 500Mb each (which will be taken into account during end
+of month billing, or shaping calculations).
+
+-----
+
+A couple of FAQs about this spec:
+
+Q: How does the xml feed know which user its fetching data for?
+
+A: This is done through HTTP basic auth. Basically, your code needs to send
+a HTTP header along with its get/post request which includes the relevant
+username and password. This is same header a normal web browser would send
+when you type a username/password into a pop up box.
