@@ -139,7 +139,10 @@
 	// Explicitly declare GB and formats until we add user customisable settings for it.
 	var byteformat = 'GB';
 	var suffix=true;
-	var gbformat = localStorage["gbformat"];
+	var bgformat = 1000;
+	if(localStorage["gbformat"]) {
+		gbformat = localStorage["gbformat"];
+	}
 	// Round gigabyte values to one decimal place?
 	var rnd=true;
 
