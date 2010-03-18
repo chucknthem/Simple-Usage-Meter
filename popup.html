@@ -47,6 +47,11 @@
 			document.body.appendChild(pEl);
 		}
 	}
+
+	function refreshUsage() {
+		localStorage['cacheTime'] = null;
+		location.reload(true);
+	}
 	/**
 	 * save usageData into localStorage cache
 	 */
@@ -158,7 +163,6 @@
 	var usagemeterwidth = 200;
 
 	function showUsage(data) {
-		saveUsageData(data);
 		var divEl = document.getElementById("maindiv");
 		divEl.innerHTML = "";
 
@@ -248,7 +252,11 @@
 				}
 				usedtcol.style.backgroundColor = usedbgcolor;
 		
-
+				//calculate last update time
+				var minutesSinceUpdate = 0;
+				if(localStorage['cacheTime']) {
+					minutesSinceUpdate = parseInt(((new Date()).getTime() - localStorage['cacheTime'])/60000);
+				}
 
 				// Arrow displaying how much time in the month has elapsed
 				var indicator = document.createElement("img");
@@ -293,7 +301,6 @@
 					dataperday =fB(dataperday); 
 				}
 				
-
 				content.innerHTML = ""
 				+"<tr><th>Quota</th>"
 				+"<td>"+ data[i].usagemb + "/" + data[i].limit +"</td></tr>"
@@ -305,7 +312,8 @@
 				+"<td><span style='color:"+targetcolor+"'>" + fB(target) 
 				+" (<abbr title='"+abbrtext+"'>"+targetastime+"d</abbr>)</span></td></tr>"
 				+"<tr><th>Time Remaining</th>"
-				+"<td>"+resetreadable+"</td></tr>";
+					+"<td>"+resetreadable+"</td></tr>"
+				+"<tr><th>Last Update</th><td>" + minutesSinceUpdate + " minutes ago</td></tr>";
 
 				// Testing line
 				// text.innerHTML += data[0].daysleft + " DEBUG<br>";
@@ -354,18 +362,20 @@
 <body>
 	<div id="maindiv">loading...</div>
 <script>
-	//main entry point
-	if(localStorage['isp']) {
-		c_loadjs(localStorage['isp']+'.js', function() {
-			params = new UsageParam(localStorage['isp'], 
-			localStorage['username'], localStorage['password']);
-			fetchAndDisplay(params);
-		});
-	} else {
-		var data = mkError("error: No account details, enter your ISP login details in the options");
-		showUsage(data);
-	}
-
+var main = (function () {
+		//main entry point
+		if(localStorage['isp']) {
+			c_loadjs(localStorage['isp']+'.js', function() {
+				params = new UsageParam(localStorage['isp'], 
+				localStorage['username'], localStorage['password']);
+				fetchAndDisplay(params);
+			});
+		} else {
+			var data = mkError("error: No account details, enter your ISP login details in the options");
+			showUsage(data);
+		}
+	})();
 </script>
+<p><a href="javascript:refreshUsage();">refresh</a></p>
 </body>
 </html>
