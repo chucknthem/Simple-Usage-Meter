@@ -15,7 +15,7 @@ function iiNet_parseXML(text) {
 	if(!xml) {
 		return mkError("error: invalid xml");
 	}
-	var errorResults  =xml.evaluate('/ii_feed/error', xml, null, XPathResult.ANY_TYPE,null).iterateNext();
+	var errorResults = xml.evaluate('/ii_feed/error', xml, null, XPathResult.ANY_TYPE,null).iterateNext();
 
 	if (errorResults){
 		var errorMessage = errorResults.childNodes[0].nodeValue;

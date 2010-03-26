@@ -23,10 +23,12 @@ function aaNet_parseXML(text) {
   // aaNet quota is clearly defined
   var limitmb = v[4];
   // aaNet usage is the greater of downloads or uploads
+  var gbformat = 1024;
+  gbformat = localStorage['gbformat'];
   if (v[0] < v[1]) {
-   var usagemb = Math.round(v[1]/1024/1024);
+   var usagemb = Math.round(v[1]/gbformat/gbformat);
   } else {
-   var usagemb = Math.round(v[0]/1024/1024);
+   var usagemb = Math.round(v[0]/gbformat/gbformat);
   } 
 
   // Determine how many days are left in the billing cycle
@@ -47,6 +49,7 @@ function aaNet_parseXML(text) {
   results[i]['usagemb'] = usagemb;
   results[i]['limit'] = limitmb;
   results[i]['daysleft'] = Math.ceil(daysleft);
+  results[i]['lastupdate'] = v[2];
   results[i]['custom'] = false;
   return results;
  }
