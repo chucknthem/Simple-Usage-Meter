@@ -4,7 +4,10 @@ Currently supports netspace, iiNet and aaNet
 
 
 VERSION HISTORY
-
+= 0.4.8 - 0.4.10 =
+ - manual refresh button
+ - more customisation in options menu
+ - fixed caching bug introduced in version 0.4.6
 = 0.4.7 = 
  - lots of new features from Lukian
    - new SVG graphics for prettier display
@@ -37,3 +40,5 @@ TODO
 - support Internode
 - support Exetel
 - support Telstra
+
+
