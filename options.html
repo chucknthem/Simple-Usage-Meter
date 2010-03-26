@@ -6,31 +6,52 @@
 		}
 		#wrapper {
 			padding:30px;
-			width:300px;
+			width:375px;
 			height:250px;
 			border:solid 1px;
 			margin:0px auto;
 			margin-top:10%;
 			background-color:#FFF;
 		}
+		abbr{border-bottom:1px dotted #000;cursor:help;}
 	</style>
 	<script type="text/javascript">
 
 		// Saves options to localStorage.
 	function save_options() {
+		var username = document.getElementById("username").value;
+		localStorage["username"] = username;
+
+		var password = document.getElementById("password").value;
+		localStorage["password"] = password;
+
 		var ispSelect = document.getElementById("isp");
 		var isp = ispSelect.children[ispSelect.selectedIndex].value;
+		localStorage["isp"] = isp;
 
 		var gbformatSel = document.getElementById("gbformat");
 		var gbformat = gbformatSel.children[gbformatSel.selectedIndex].value;
-
-		var username = document.getElementById("username").value;
-		var password = document.getElementById("password").value;
-
-		localStorage["isp"] = isp;
-		localStorage["username"] = username;
-		localStorage["password"] = password;
 		localStorage["gbformat"] = gbformat;
+
+		var badgeDisplaySel = document.getElementById("badgeDisplay");
+		var badgeDisplay = badgeDisplaySel.children[badgeDisplaySel.selectedIndex].value;
+		localStorage["badgeDisplay"] = badgeDisplay;
+
+		//var formatDataSel = document.getElementById("formatData");
+		//var formatData = formatDataSel.children[formatDataSel.selectedIndex].value;
+		//localStorage["formatData"] = formatData;
+
+		var byteFormatSel = document.getElementById("byteFormat");
+		var byteFormat = byteFormatSel.children[byteFormatSel.selectedIndex].value;
+		localStorage["byteFormat"] = byteFormat;
+
+		var suffixSel = document.getElementById("suffix");
+		var suffix = suffixSel.children[suffixSel.selectedIndex].value;
+		localStorage["suffix"] = suffix;
+
+		var roundDataSel = document.getElementById("roundData");
+		var roundData = roundDataSel.children[roundDataSel.selectedIndex].value;
+		localStorage["roundData"] = roundData;
 
 		localStorage.removeItem('cache');
 		localStorage.removeItem('cacheTime');
@@ -56,12 +77,23 @@ function _restoreSelection(id, value) {
 // Restores select box state to saved value from localStorage.
 function restore_options() {
 	var isp = localStorage["isp"];
-	var username = localStorage["username"];
-	var password = localStorage["password"];
 	var gbformat = localStorage["gbformat"];
+	var badgeDisplay = localStorage["badgeDisplay"];
+	//var formatData = localStorage["formatData"];
+	var byteFormat = localStorage["byteFormat"];
+	var suffix = localStorage["suffix"];
+	var roundData = localStorage["roundData"];
 
 	if(isp) _restoreSelection("isp", isp);
 	if(gbformat) _restoreSelection("gbformat", gbformat);
+	if(badgeDisplay) _restoreSelection("badgeDisplay", badgeDisplay);
+	//if(formatData) _restoreSelection("formatData", formatData);
+	if(byteFormat) _restoreSelection("byteFormat", byteFormat);
+	if(suffix) _restoreSelection("suffix", suffix);
+	if(roundData) _restoreSelection("roundData", roundData);
+
+	var username = localStorage["username"];
+	var password = localStorage["password"];
 	if(username) {
 		document.getElementById("username").value = username;
 	} 
@@ -75,25 +107,59 @@ function restore_options() {
 </head>
 <body onload="restore_options()">
 	<div id="wrapper">
-		ISP: <br />
+	<label for="ISP">My ISP is </label>
 	<select name="isp" id="isp">
 		<option value="aaNet">aaNet</option>
+		<option value="exetel">exetel</option>
 		<option value="iiNet">iiNet</option>
 		<option value="netspace">Netspace</option>
 	</select>
 	<br />
-	Username:<br />
+	<label for="username">My Username is </label>
 	<input type="text" id="username" name="username" />
 	<br />
-	Password:<br />
+	<label for="password">My Password is </label>
 	<input type="password" name="password" id="password" />
 	<p><strong>Advanced Options</strong></p>
-	1GB = ?MB:<br /><select id="gbformat" name="gbformat">
+	<label for="gbformat">Display 1GB as </label>
+	<select id="gbformat" name="gbformat">
 		<option value="1024">1024</option>
 		<option value="1000">1000</option>
-	</select>
+	</select>MB.<br />
 
-	<br />
+	<label for="byteFormat">Display all data in </label>
+	<select id="byteFormat" name="byteFormat">
+		<option value="GB">Gigabytes</option>
+		<option value="MB">Megabytes</option>
+	</select>
+        <select id="suffix" name="suffix">
+		<option value="yes">with</option>
+		<option value="no">without</option>
+	</select> suffix,<br />
+
+
+	<label for="roundData">rounded to </label>
+	<select id="roundData" name="roundData">
+		<option value="0">0</option>
+		<option value="1">1</option>
+		<option value="2">2</option>
+	</select> decimal place(s).<br />
+
+	<label for="badgeDisplay">Display </label>
+	<select id="badgeDisplay" name="badgeDisplay">
+		<option value="Target">Target</option>
+		<option value="Percent Used">Percent Used</option>
+		<option value="Percent Remaining">Percent Remaining</option>
+		<option value="Quota Used">Quota Used</option>
+		<option value="Quota Remaining">Quota Remaining</option>
+		<option value="0">Nothing</option>
+	</select> in the <abbr title="Chrome's name for the information area in the lower right of an extension's icon.">badge</abbr><!--, with the data 	
+	<select id="formatData" name="formatData">
+		<option value="unformatted">unformatted</option>
+		<option value="formatted">formatted GB</option>
+	</select>-->.
+
+	<br /><br />
 	<button onclick="save_options()">Save</button>
 	<div id="status"></div>
 </div>
