@@ -26,7 +26,7 @@
 	}
 </style>
 <script>
-	DEBUG_MODE = true;
+	DEBUG_MODE = false;
 	function c_loadjs(fname, load_call) {
 		var escript = document.createElement('script');
 		escript.setAttribute('type', 'text/javascript');
@@ -189,7 +189,7 @@
 				//data[i].usagemb = 76000; //28746+8415;
 
 				// Define variables
-				var daysleft = data[i].daysleft;
+				var daysleft = (data[i].daysleft > 0)? data[i].daysleft:1; //minimum days left is one
 				var pc = Math.round((data[i].usagemb/data[i].limit)*100);
 				var remaining = (data[i].limit - data[i].usagemb);
 				var dataperday = Math.round(remaining/daysleft);

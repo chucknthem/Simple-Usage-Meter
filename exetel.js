@@ -27,14 +27,26 @@ function exetel_getBlockLimits(name, limits) {
 }
 
 /*
+ * calculate days left until quota is reset
+ * the xml doesn't define when the end of month is, 
+ * but assume it's the same date as the contract end date
+ */
+function _getDaysLeft(xml) {
+	var contractEndDate = xml.evaluate('/Response/ContractDetails/ContractEndDate', xml, null, XPathResult.ANY_TYPE, null);
+	var result = contractEndDate.iterateNext().childNodes[0].nodeValue.split('-');
+	var today = new Date();
+	var endDate = new Date(today.getFullYear, result[1] - 1, result[0]);
+	return (endDate.getTime() - today.getTime())/(1000*60*60*24);
+}
+
+/*
  * nestpace isp
  * @param xml root xml document with USAGE as the first node
  */
 function exetel_parseXML(text) { 
 	var xml = (new DOMParser()).parseFromString(text, "text/xml");
 	var results = new Array();
-	//TODO
-	var daysLeft = 2;
+	var daysLeft = _getDaysLeft(xml);
 
 	var planDetails = xml.evaluate('/Response/PlanDetails', xml, null, XPathResult.ANY_TYPE, null);
 	var qResults = planDetails.iterateNext();
