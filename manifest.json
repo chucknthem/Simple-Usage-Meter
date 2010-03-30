@@ -9,6 +9,7 @@
    },
    "name": "Simple Usage Meter *beta*",
    "options_page": "options.html",
+	"background_page": "background.html",
    "permissions": [ 
 		"https://usage.netspace.net.au/", 
 		"https://toolbox.iinet.net.au/",

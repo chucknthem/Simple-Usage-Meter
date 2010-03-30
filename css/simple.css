@@ -1,0 +1,24 @@
+body {
+	min-width:210px;
+	overflow-x:hidden;
+}
+h1{ font-size: 12pt; text-align:center; }
+p{ font-size: 8pt; }
+
+table.usagemeter{border-collapse: collapse;border:1px solid #333;}
+
+abbr{
+	border-bottom:1px dotted #000;
+	cursor:help;
+}
+td{font-size:8pt;}
+th{font-size:8pt;align:left;width:100px;text-align:left;}
+#pc{
+	text-align:right;
+	width:100%;
+}
+.used{
+	color:#fff;
+	text-shadow:#000 1px 1px 2px;
+}
+

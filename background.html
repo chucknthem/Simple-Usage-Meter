@@ -1,0 +1,21 @@
+<html>
+	<script type="text/javascript" src="js/simple.js"></script>
+	<script>
+		//how often to refresh
+		var refreshInterval_min = 20;
+
+		function refreshFetch() {
+			if(localStorage['isp']) {
+				c_loadjs(localStorage['isp']+'.js', function() {
+					params = new UsageParam(localStorage['isp'], 
+					localStorage['username'], localStorage['password']);
+					fetch(params, null);
+				});
+			}
+		}
+		window.setTimeout(function() {
+			refreshFetch();
+		  }, 10000);//refreshInterval_min*60*1000);
+	</script>
+</html>
+
