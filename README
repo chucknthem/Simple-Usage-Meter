@@ -1,9 +1,11 @@
 Simple Internet Usage meter for Australian ISPs
 
-Currently supports netspace, iiNet and aaNet 
+Currently supports netspace, exetel, iiNet and aaNet 
 
 
 VERSION HISTORY
+= 0.4.11 =
+ - added support for exetel (thanks Adam Holzheimer for testing)
 = 0.4.8 - 0.4.10 =
  - manual refresh button
  - more customisation in options menu
@@ -36,9 +38,11 @@ TODO
 - clean up code, a lot of new feature code was hacked on, it needs to be cleaned up
 - clean up options page. currently adding new options is a pain, we need some helper functions to make loading and saving functions easier
 - support Optus
-- support TPG
+- support TPG 
 - support Internode
-- support Exetel
 - support Telstra
 
-
+= CREDITS = 
+Adam Holzheimer - help adding exetel support
+chucknthem - creator/maintainer
+Lukian - usage meter graphics, added aaNet support
