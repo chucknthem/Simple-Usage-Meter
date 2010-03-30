@@ -68,6 +68,9 @@ function netspace_parseXML(text) {
 				"/USAGE/TRAFFIC/DATA[@TYPE='" + limitName + "']", 
 				xml, null, XPathResult.ANY_TYPE, null
 				).iterateNext();
+		if(!dataResults) {
+			return mkError("no usage data found for plan " + limitName + "\n");
+		}
 		var usagemb = parseInt(dataResults.getAttribute("DOWNLOADS"));
 
 		if(blockLimits) {
