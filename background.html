@@ -3,19 +3,38 @@
 	<script>
 		//how often to refresh
 		var refreshInterval_min = 20;
+		var loaded = new Object();
+
+		//load params from localStorage then fetch and update
+		function _refreshHelper() {
+			params = new UsageParam(localStorage['isp'], localStorage['username'], localStorage['password']);
+			localStorage['cacheTime'] = null;
+
+			fetch(params, null);
+			data = loadUsageData();
+		}
 
 		function refreshFetch() {
+			//check if the ISP script is already loaded
+			//if not, load it before trying to refresh
 			if(localStorage['isp']) {
-				c_loadjs(localStorage['isp']+'.js', function() {
-					params = new UsageParam(localStorage['isp'], 
-					localStorage['username'], localStorage['password']);
-					fetch(params, null);
-				});
+				if(typeof (loaded[localStorage['isp'] + '.js']) == 'undefined') {
+
+					c_loadjs(localStorage['isp']+'.js', function() {
+						loaded[localStorage['isp'] + '.js'] = true;
+						_refreshHelper();
+
+					});
+		
+				}
+				else { //isp js is already loaded
+					_refreshHelper();
+				}
 			}
 		}
-		window.setTimeout(function() {
+		window.setInterval(function() {
 			refreshFetch();
-		  }, 10000);//refreshInterval_min*60*1000);
+		  },refreshInterval_min*60*1000);
 	</script>
 </html>
 

@@ -65,14 +65,19 @@ function exetel_parseXML(text) {
 		results[i]['usagemb'] = parseInt(qUsageResults.getElementsByTagName("PeakDownload")[0].childNodes[0].nodeValue);
 		results[i]['daysleft'] = daysLeft;
 		results[i]['custom'] = false;
-	
+
 		//offpeak
-		results[i + 1] = new Object();
-		results[i + 1]['name'] = mainName + '- offpeak';
-		results[i + 1]['limit'] = parseInt(qResults.getElementsByTagName("OffpeakTimeDownloadInMB")[0].childNodes[0].nodeValue);
-		results[i + 1]['usagemb'] = parseInt(qUsageResults.getElementsByTagName("OffpeakDownload")[0].childNodes[0].nodeValue);
-		results[i + 1]['daysleft'] = daysLeft;
-		results[i + 1]['custom'] = false;
+		//some plans don't have off peak plans, so we check if they do or don't based whether the xml defines an offpeak limit
+	 	var offpeakNodeLimit = qResults.getElementsByTagName("OffpeakTimeDownloadInMB")[0].childNodes[0];
+		if(typeof(offpeakNodeLimit) != 'undefined') {
+			results[i + 1]['limit'] = parseInt(offpeakNodeLimit.nodeValue);
+			results[i + 1] = new Object();
+			results[i + 1]['name'] = mainName + '- offpeak';
+			results[i + 1]['limit'] = parseInt(qResults.getElementsByTagName("OffpeakTimeDownloadInMB")[0].childNodes[0].nodeValue);
+			results[i + 1]['usagemb'] = parseInt(qUsageResults.getElementsByTagName("OffpeakDownload")[0].childNodes[0].nodeValue);
+			results[i + 1]['daysleft'] = daysLeft;
+			results[i + 1]['custom'] = false;
+		}
 	}
 
 	return results;
