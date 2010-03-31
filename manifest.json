@@ -3,7 +3,7 @@
       "default_icon": "icon.png",
       "popup": "popup.html"
    },
-   "description": "Internet usage meter for Australian ISPs. Supporting aaNet, iiNet, Netspace and more to come.",
+   "description": "Internet usage meter for Australian ISPs. Supporting aaNet, exetel, iiNet, Netspace and more to come.",
    "icons": {
       "128": "icon.png"
    },
