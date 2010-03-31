@@ -4,6 +4,9 @@ Currently supports netspace, exetel, iiNet and aaNet
 
 
 VERSION HISTORY
+= 0.5 =
+ - added background page to update usage data in the background
+ - that way were almost always loading cache data when the icon is clicked which is a lot faster
 = 0.4.11 =
  - added support for exetel (thanks Adam Holzheimer for testing)
 = 0.4.8 - 0.4.10 =

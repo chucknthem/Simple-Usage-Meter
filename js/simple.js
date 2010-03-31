@@ -159,6 +159,7 @@ var usagemeterwidth = 205;
 
 function updateBadge(data) {
 	if(!data) return;
+
 	// Update the Chrome extension "badge"
 	var badge = {};
 	var badgeDisplay = "Quota Used";
@@ -179,7 +180,7 @@ function updateBadge(data) {
 			badgeContent = dataperday+''; break;
 		case "Percent Used": badgeContent = pc+'%'; break;
 		case "Percent Remaining": badgeContent = 100-pc+'%'; break;
-		case "Target": badgeContent = fB(target,byteFormat,0)+''; break;
+		case "Target": badgeContent = fB(data.target,byteFormat,0)+''; break;
 		default: badgeContent = '';
 	}
 	badge.text = badgeContent;
@@ -236,6 +237,7 @@ function showUsage(data) {
 				targetastime += 'd';
 			}
 
+			data.target = target;
 			updateBadge(data);
 
 			// Create the 'usage meter'
