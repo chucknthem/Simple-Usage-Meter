@@ -218,7 +218,7 @@ function showUsage(data) {
 			// Update the Chrome extension "badge"
 			var badge = {};
 			var badgeDisplay = "Quota Used";
-			var remaining = (data[0].limit - data[0].usagemb);
+			var remaining = (data[i].limit - data[i].usagemb);
 			badgeDisplay = localStorage['badgeDisplay'];
 			/* TODO: Show suffix on badge. Too complex for tonight and not really useful.
 				var format = 'none';

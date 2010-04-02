@@ -75,8 +75,8 @@ function exetel_parseXML(text) {
 		//some plans don't have off peak plans, so we check if they do or don't based whether the xml defines an offpeak limit
 	 	var offpeakNodeLimit = qResults.getElementsByTagName("OffpeakTimeDownloadInMB")[0].childNodes[0];
 		if(typeof(offpeakNodeLimit) != 'undefined') {
-			results[i + 1]['limit'] = parseInt(offpeakNodeLimit.nodeValue);
 			results[i + 1] = new Object();
+			results[i + 1]['limit'] = parseInt(offpeakNodeLimit.nodeValue);
 			results[i + 1]['name'] = mainName + '- offpeak';
 			results[i + 1]['limit'] = parseInt(qResults.getElementsByTagName("OffpeakTimeDownloadInMB")[0].childNodes[0].nodeValue);
 			results[i + 1]['usagemb'] = parseInt(qUsageResults.getElementsByTagName("OffpeakDownload")[0].childNodes[0].nodeValue);
