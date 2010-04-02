@@ -159,32 +159,8 @@ var usagemeterwidth = 205;
 
 function updateBadge(data) {
 	if(!data) return;
+	//TODO factor out just badge code here so it can be called in the background
 
-	// Update the Chrome extension "badge"
-	var badge = {};
-	var badgeDisplay = "Quota Used";
-	var remaining = (data[0].limit - data[0].usagemb);
-	badgeDisplay = localStorage['badgeDisplay'];
-	/* TODO: Show suffix on badge. Too complex for tonight and not really useful.
-		var format = 'none';
-	//if (localStorage['formatData'] == 'formatted') { format = 'GB'; }
-	//else { var suf = false; }
-	*/
-
-	switch(badgeDisplay){
-		case "Quota Used": 
-			badgeContent = fB(data[i].usagemb,byteFormat,0)+''; break;
-		case "Quota Remaining": 
-			badgeContent = fB(remaining,byteFormat,0)+''; break;
-		case "Quota Remaining per day": 
-			badgeContent = dataperday+''; break;
-		case "Percent Used": badgeContent = pc+'%'; break;
-		case "Percent Remaining": badgeContent = 100-pc+'%'; break;
-		case "Target": badgeContent = fB(data.target,byteFormat,0)+''; break;
-		default: badgeContent = '';
-	}
-	badge.text = badgeContent;
-	chrome.browserAction.setBadgeText(badge);
 }
 
 function showUsage(data) {
@@ -238,7 +214,32 @@ function showUsage(data) {
 			}
 
 			data.target = target;
-			updateBadge(data);
+
+			// Update the Chrome extension "badge"
+			var badge = {};
+			var badgeDisplay = "Quota Used";
+			var remaining = (data[0].limit - data[0].usagemb);
+			badgeDisplay = localStorage['badgeDisplay'];
+			/* TODO: Show suffix on badge. Too complex for tonight and not really useful.
+				var format = 'none';
+			//if (localStorage['formatData'] == 'formatted') { format = 'GB'; }
+			//else { var suf = false; }
+			*/
+
+			switch(badgeDisplay){
+				case "Quota Used": 
+					badgeContent = fB(data[i].usagemb,byteFormat,0)+''; break;
+				case "Quota Remaining": 
+					badgeContent = fB(remaining,byteFormat,0)+''; break;
+				case "Quota Remaining per day": 
+					badgeContent = dataperday+''; break;
+				case "Percent Used": badgeContent = pc+'%'; break;
+				case "Percent Remaining": badgeContent = 100-pc+'%'; break;
+				case "Target": badgeContent = fB(data.target,byteFormat,0)+''; break;
+				default: badgeContent = '';
+			}
+			badge.text = badgeContent;
+			chrome.browserAction.setBadgeText(badge);
 
 			// Create the 'usage meter'
 			var tbl = document.createElement("table");
