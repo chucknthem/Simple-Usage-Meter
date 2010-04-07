@@ -1,9 +1,10 @@
 {
+"update_url":"http://clients2.google.com/service/update2/crx",
    "browser_action": {
       "default_icon": "icon.png",
       "popup": "popup.html"
    },
-   "description": "Internet usage meter for Australian ISPs. Supporting aaNet, exetel, iiNet, Netspace and more to come.",
+   "description": "Internet usage meter for Australian ISPs. Supporting aaNet, AdamInternet, exetel, iiNet, Netspace and more to come.",
    "icons": {
       "128": "icon.png"
    },
@@ -14,7 +15,8 @@
 		"https://usage.netspace.net.au/", 
 		"https://toolbox.iinet.net.au/",
 		"https://www.aanet.com.au/",
-		"https://www.exetel.com.au/"
+		"https://www.exetel.com.au/",
+		"https://members.adam.com.au/"
  	],
-   "version": "0.5.3"
+   "version": "0.5.4"
 }

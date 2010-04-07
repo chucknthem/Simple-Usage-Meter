@@ -4,6 +4,8 @@ Currently supports netspace, exetel, iiNet and aaNet
 
 
 VERSION HISTORY
+= 0.5.4 = 
+ - support for adam internet thanks to networkMe
 = 0.5 =
  - added background page to update usage data in the background
  - that way were almost always loading cache data when the icon is clicked which is a lot faster
@@ -49,3 +51,4 @@ TODO
 Adam Holzheimer - help adding exetel support
 chucknthem - creator/maintainer
 Lukian - usage meter graphics, added aaNet support
+networkMe - added Adam Internet support
