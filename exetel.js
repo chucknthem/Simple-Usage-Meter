@@ -34,11 +34,11 @@ function exetel_getBlockLimits(name, limits) {
 function _getDaysLeft(xml) {
 	var contractEndDate = xml.evaluate('/Response/ContractDetails/ContractEndDate', xml, null, XPathResult.ANY_TYPE, null);
 	var node = contractEndDate.iterateNext();
-	if(node == null) return null;
+	if (node == null) return null;
 	var result = node.childNodes[0].nodeValue.split('-');
 	var today = new Date();
-	var endDate = new Date(today.getFullYear, result[1] - 1, result[0]);
-	return (endDate.getTime() - today.getTime())/(1000*60*60*24);
+	var endDate = new Date(today.getFullYear(), result[1] - 1, result[2]);
+	return Math.floor((endDate.getTime() - today.getTime())/(1000*60*60*24));
 }
 
 /*
@@ -49,7 +49,7 @@ function exetel_parseXML(text) {
 	var xml = (new DOMParser()).parseFromString(text, "text/xml");
 	var results = new Array();
 	var daysLeft = _getDaysLeft(xml);
-	if(daysLeft == null) {
+	if (daysLeft == null) {
 		return mkError('invalid XML');
 	}
 
