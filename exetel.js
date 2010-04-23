@@ -42,7 +42,6 @@ function _getDaysLeft(xml) {
 		month = (month + 11)%12;
 	}
 	var endDate = new Date(today.getFullYear(), month, result[2]);
-	alert(endDate);
 	return Math.floor((endDate.getTime() - today.getTime())/(1000*60*60*24));
 }
 
