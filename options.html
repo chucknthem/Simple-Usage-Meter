@@ -15,17 +15,19 @@
 		}
 		abbr{border-bottom:1px dotted #000;cursor:help;}
 	</style>
+	<script type="text/javascript" src="content/config.js" />
+	<script type="text/javascript" src="content/netusage_isps.js" />
 	<script type="text/javascript">
 
 		// Saves options to localStorage.
 	function save_options() {
-		var username = document.getElementById("username").value;
+		var username = $("username").value;
 		localStorage["username"] = username;
 
-		var password = document.getElementById("password").value;
+		var password = $("password").value;
 		localStorage["password"] = password;
 
-		var ispSelect = document.getElementById("isp");
+		var ispSelect = $("isp");
 		var isp = ispSelect.children[ispSelect.selectedIndex].value;
 		localStorage["isp"] = isp;
 
@@ -165,5 +167,17 @@ function restore_options() {
 	<button onclick="save_options()">Save</button>
 	<div id="status"></div>
 </div>
+<script type="text/javascript">
+	/*
+		load options for ISPs
+	*/
+	var ispSel = document.getElementById('isp');
+	for (var isp in nu_isps_au) {
+		var ispOpt = document.createElement('option');
+		ispOpt.setAttribute('value', 'nu_' + isp);
+		ispOpt.innerHTML = 'nu_' + nu_isps_au[isp].name;
+		ispSel.appendChild(ispOpt);
+	}
+</script>
 </body>
 </html>
