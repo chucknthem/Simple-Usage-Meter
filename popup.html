@@ -1,6 +1,12 @@
 <html>
 <head>
 <link rel="stylesheet" href="css/simple.css" />
+
+<script type="text/javascript" src="content/config.js" />                 
+<script type="text/javascript" src="content/netusage_isps.js" />
+
+<script type="text/javascript" src="js/netusage_parser.js" />
+
 <script type="text/javascript" src="js/simple.js"></script>
 
 </head>
@@ -9,12 +15,21 @@
 <script>
 var main = (function () {
 		//main entry point
-		if(localStorage['isp']) {
-			c_loadjs(localStorage['isp']+'.js', function() {
-				params = new UsageParam(localStorage['isp'], 
-				localStorage['username'], localStorage['password']);
-				fetch(params, showUsage);
-			});
+		if (localStorage['isp']) {
+		//try to support the firefox netusage ISP format
+			if (localStorage['isp'].match(/^nu_/)) {
+				var isp = localStorage['isp'].replace(/^nu_/, '');
+				var username = localStorage['username'];
+				var password = localStorage['password'];
+				//NetUsage.init(isp, username, password);	
+
+			} else {
+				c_loadjs(localStorage['isp']+'.js', function() {
+					params = new UsageParam(localStorage['isp'], 
+					localStorage['username'], localStorage['password']);
+					fetch(params, showUsage);
+				});
+			}
 		} else {
 			var data = mkError("error: No account details, enter your ISP login details in the options");
 			showUsage(data);
