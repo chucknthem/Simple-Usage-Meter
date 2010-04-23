@@ -37,7 +37,12 @@ function _getDaysLeft(xml) {
 	if (node == null) return null;
 	var result = node.childNodes[0].nodeValue.split('-');
 	var today = new Date();
-	var endDate = new Date(today.getFullYear(), result[1] - 1, result[2]);
+	var month = today.getMonth() + 1;
+	if (today.getDay() < result[2]) {
+		month = (month + 11)%12;
+	}
+	var endDate = new Date(today.getFullYear(), month, result[2]);
+	alert(endDate);
 	return Math.floor((endDate.getTime() - today.getTime())/(1000*60*60*24));
 }
 
