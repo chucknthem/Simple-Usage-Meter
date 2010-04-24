@@ -325,12 +325,16 @@ function showUsage(data) {
 			var content = document.createElement("table");
 
 			// Display in MB if values are less than 1GB
-			if (remaining<gbformat){ 
+			if (remaining < gbformat){ 
 				remaining = fB(remaining,'MB'); 
-				dataperday =fB(dataperday,'MB'); 
 			} else { 
 				remaining = fB(remaining); 
-				dataperday =fB(dataperday); 
+			}
+
+			if (dataperday < gbformat){ 
+				dataperday = fB(dataperday,'MB'); 
+			} else {
+				dataperday = fB(dataperday); 
 			}
 
 			content.innerHTML = ""
