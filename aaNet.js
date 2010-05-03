@@ -8,7 +8,7 @@ function aaNet_getConfig() {
 
 /*
  * aaNet ISP
- * usage3.php contains: "\n0,25816905581,2010-02-28 08:17:20,18,76800,ADSL2+,ADSL2 150G";
+ * usage3.php contains: "\n70024936,25816905581,2010-02-28 08:17:20,18,76800,ADSL2+,ADSL2 150G";
  * upload,downloads (bytes),current date,billing day,limit(megabytes),plan type,plan name
  */
 function aaNet_parseXML(text) {
@@ -25,10 +25,13 @@ function aaNet_parseXML(text) {
   // aaNet usage is the greater of downloads or uploads
   var gbformat = 1024;
   gbformat = localStorage['gbformat'];
-  if (v[0] < v[1]) {
-   var usagemb = Math.round(v[1]/gbformat/gbformat);
+  var upload = Math.round(v[0]/gbformat/gbformat);
+  var download = Math.round(v[1]/gbformat/gbformat);
+  var usagemb = 0;
+  if ((download > upload) || (upload == 0) || (download == upload)) {
+   usagemb = download;
   } else {
-   var usagemb = Math.round(v[0]/gbformat/gbformat);
+   usagemb = upload;
   } 
 
   // Determine how many days are left in the billing cycle
