@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="usage.xsl"?>
+  <Response>
+    <UsageMeter>
+      <Name>Adam Internet XML Usage Meter</Name>
+      <Version>2.1</Version>
+      <Disclaimer>XML Feed provided to you by Adam Internet to monitor your usage. This information is provided to you as a guide only and must not be relied upon as a commitment or authorative in nature.</Disclaimer>
+      <PreviousVersion>2.0</PreviousVersion>
+      <PreviousVersionURI>https://members.adam.com.au/um2.0/usage.xml</PreviousVersionURI>
+      <NextVersion></NextVersion>
+      <NextVersionURI></NextVersionURI>
+      <FrequentHitPenalty>0</FrequentHitPenalty>
+    </UsageMeter>
+    <Customer>
+      <Account type="ADSL" username="USERNAME">
+        <QuotaStartDate>2010-03-11</QuotaStartDate>
+        <PlanType>AdamDirect</PlanType>
+        <PlanSpeed>24000/1000</PlanSpeed>
+        <MegabyteQuota>30000</MegabyteQuota>
+        <MegabyteDatablocks>5000</MegabyteDatablocks> 	<!-- datablock -->
+        <NewsgroupQuota>40000</NewsgroupQuota>  <!-- silver newsgroup, standard = 10000 -->
+        <Usage>
+          <MegabytesDownloadedPeak>33201</MegabytesDownloadedPeak>
+          <MegabytesDownloadedOffPeak>27744</MegabytesDownloadedOffPeak>
+          <MegabytesUploadedTotal>6542</MegabytesUploadedTotal>
+          <MegabytesNewsgroupTotal>10977</MegabytesNewsgroupTotal>
+          <LastUsageUpdate>2010-04-08T14:59:41+09:30</LastUsageUpdate>  <!-- useful to check if offpeak has begun -->
+          <NextUsageUpdateEstimate>2010-04-08T16:49:09+09:30</NextUsageUpdateEstimate>
+        </Usage>
+      </Account>
+    </Customer>
+  </Response>
