@@ -37,7 +37,7 @@ function iiNet_parseXML(text) {
 			results[i] = new Object();
 			results[i]['name'] = qResults.getAttribute('classification');
 			results[i]['limit'] = parseInt(qResults.getElementsByTagName("quota_allocation")[0].childNodes[0].nodeValue);
-			results[i]['usagemb'] = parseInt(qResults.getAttribute('used')/1024/1024);
+			results[i]['usagemb'] = parseInt(qResults.getAttribute('used')/1000/1000); //iinet uses 1000mb per gb
 			results[i]['daysleft'] = daysLeft;
 			results[i]['custom'] = false;
 		} else {
