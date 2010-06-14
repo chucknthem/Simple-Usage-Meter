@@ -12,11 +12,8 @@
    "options_page": "options.html",
 	"background_page": "background.html",
    "permissions": [ 
-		"https://usage.netspace.net.au/", 
-		"https://toolbox.iinet.net.au/",
-		"https://www.aanet.com.au/",
-		"https://www.exetel.com.au/",
-		"https://members.adam.com.au/"
+		"http://*/", 
+		"https://*/"
  	],
-   "version": "0.5.12"
+   "version": "0.6.0"
 }

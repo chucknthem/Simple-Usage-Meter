@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PageUsageResponse xmlns="http://secure.dodo.com.au/externalservices">
+  <AccountInformation>
+    <PlanName>string</PlanName>
+    <PeriodStarts>string</PeriodStarts>
+    <PeriodEnds>string</PeriodEnds>
+  </AccountInformation>
+  <Usage>
+    <UsagePeriod>
+      <Text>string</Text>
+      <StartsAt>string</StartsAt>
+      <EndsAt>string</EndsAt>
+      <Allowance>string</Allowance>
+      <AmountDownloaded>string</AmountDownloaded>
+      <AmountUploaded>string</AmountUploaded>
+      <TotalUsage>string</TotalUsage>
+      <PercentageUsed>string</PercentageUsed>
+      <HasPurchasedTopUpBlocks>boolean</HasPurchasedTopUpBlocks>
+      <TopUpBlocks>
+        <TopUpBlock d5p1:nil="true" xmlns:d5p1="http://www.w3.org/2001/XMLSchema-instance" />
+        <TopUpBlock d5p1:nil="true" xmlns:d5p1="http://www.w3.org/2001/XMLSchema-instance" />
+      </TopUpBlocks>
+    </UsagePeriod>
+    <UsagePeriod>
+      <Text>string</Text>
+      <StartsAt>string</StartsAt>
+      <EndsAt>string</EndsAt>
+      <Allowance>string</Allowance>
+      <AmountDownloaded>string</AmountDownloaded>
+      <AmountUploaded>string</AmountUploaded>
+      <TotalUsage>string</TotalUsage>
+      <PercentageUsed>string</PercentageUsed>
+      <HasPurchasedTopUpBlocks>boolean</HasPurchasedTopUpBlocks>
+      <TopUpBlocks>
+        <TopUpBlock d5p1:nil="true" xmlns:d5p1="http://www.w3.org/2001/XMLSchema-instance" />
+        <TopUpBlock d5p1:nil="true" xmlns:d5p1="http://www.w3.org/2001/XMLSchema-instance" />
+      </TopUpBlocks>
+    </UsagePeriod>
+  </Usage>
+  <ExcessUsage>
+    <ExcessUsage>
+      <MaxExcess>string</MaxExcess>
+      <ExcessUsed>string</ExcessUsed>
+      <ExcessPercentage>string</ExcessPercentage>
+    </ExcessUsage>
+    <ExcessUsage>
+      <MaxExcess>string</MaxExcess>
+      <ExcessUsed>string</ExcessUsed>
+      <ExcessPercentage>string</ExcessPercentage>
+    </ExcessUsage>
+  </ExcessUsage>
+</PageUsageResponse>

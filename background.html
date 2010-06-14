@@ -1,4 +1,5 @@
 <html>
+	<script type="text/javascript" src="js/xml.js"></script>
 	<script type="text/javascript" src="js/simple.js"></script>
 	<script>
 		//how often to refresh
@@ -11,7 +12,7 @@
 			localStorage['cacheTime'] = null;
 
 			fetch(params, null);
-			data = loadUsageData();
+			loadUsageData();
 		}
 
 		function refreshFetch() {
@@ -19,9 +20,11 @@
 			//if not, load it before trying to refresh
 			if(localStorage['isp']) {
 				if(typeof (loaded[localStorage['isp'] + '.js']) == 'undefined') {
+					var jsfile = localStorage['isp'] + '.js';
 
-					c_loadjs(localStorage['isp']+'.js', function() {
-						loaded[localStorage['isp'] + '.js'] = true;
+					c_loadjs(jsfile, function() {
+						loaded[jsfile] = true;
+						console.log('loaded ' + jsfile);
 						_refreshHelper();
 
 					});
@@ -33,8 +36,11 @@
 			}
 		}
 		window.setInterval(function() {
+			console.log('refreshing ' + new Date());
 			refreshFetch();
 		  },refreshInterval_min*60*1000);
+		console.log('refreshing ' + new Date());
+		refreshFetch();
 	</script>
 </html>
 

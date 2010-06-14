@@ -63,9 +63,11 @@ function fetch(params, callback) {
 	var usageData = loadUsageData();
 	if(!usageData) {
 		if(params.custom) {
+			console.log('no cache found, loading data from isp');
 			params.customFetch(params, showUsage);
 		} else {
 			req = new XMLHttpRequest();
+			console.log('no cache found, loading data from ' + params.url + ' using ' + params.requestType);
 
 			req.open(params.requestType, params.url, true);
 			req.onload = function() {
@@ -83,6 +85,7 @@ function fetch(params, callback) {
 			req.send(params.requestParams);
 		}
 	} else {
+		console.log('using cached usage data');
 		if(callback) {
 			callback(usageData);
 		}
@@ -380,7 +383,7 @@ function UsageParam(isp, username, password) {
 	this.custom = false;
 
 	var cfg = eval(isp + '_getConfig()');
-	if(typeof(cfg.custom) == 'undefined') {
+	if(typeof(cfg.custom) == 'undefined' || !cfg.custom) {
 		this.url = cfg.url.replace('{USERNAME}', this.username).replace('{PASSWORD}', this.password);
 		this.requestType = cfg.requestType;
 		this.requestParams = null;
