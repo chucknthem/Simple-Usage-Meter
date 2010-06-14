@@ -1,7 +1,6 @@
 function dodo_getConfig() {
 	var cfg = new Object();
 	cfg.url = "https://secure.dodo.com.au/externalwebservices/MembersPageUsage.asmx/ProvideUsage?un={USERNAME}&pw={PASSWORD}";
-	cfg.url = "http://localhost/~charles/dodo.spec.xml";
 	cfg.requestType = "GET";
 	cfg.requestParams = null;
 	return cfg;
