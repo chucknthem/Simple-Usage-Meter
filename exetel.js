@@ -34,7 +34,7 @@ function exetel_getBlockLimits(name, limits) {
 function _getDaysLeft(xml) {
 	var today = new Date();
 	var endDate = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-	return Math.floor((endDate.getTime() - today.getTime())/(1000*60*60*24));
+	return Math.ceil((endDate.getTime() - today.getTime())/(1000*60*60*24));
 }
 
 /*
