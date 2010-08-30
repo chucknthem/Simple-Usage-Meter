@@ -82,6 +82,7 @@ function fetch(params, callback) {
 					callback(usageData);
 				}
 			}
+            req.setRequestHeader("User-Agent:", "Simple Usage Meter for chrome");
 			req.send(params.requestParams);
 		}
 	} else {
