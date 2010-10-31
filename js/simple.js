@@ -66,7 +66,7 @@ function fetch(params, callback) {
 			console.log('no cache found, loading data from isp');
 			params.customFetch(params, showUsage);
 		} else {
-			req = new XMLHttpRequest();
+			var req = new XMLHttpRequest();
 			console.log('no cache found, loading data from ' + params.url + ' using ' + params.requestType);
 
 			req.open(params.requestType, params.url, true);
@@ -82,7 +82,6 @@ function fetch(params, callback) {
 					callback(usageData);
 				}
 			}
-            req.setRequestHeader("User-Agent:", "Simple Usage Meter for chrome");
 			req.send(params.requestParams);
 		}
 	} else {
