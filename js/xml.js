@@ -11,15 +11,21 @@ XML = {
 			console.error('invalid xpath');
 			return null;
 		}
-		console.log(xpathNodes);
+		// console.log(xpathNodes);
 		result = xpathNodes.iterateNext();
-		console.log(result);
+		// console.log(result);
 		if(!result) {
 			console.error('xpath search no result');
 			return null;
 		}
-		console.log(result.childNodes[0].nodeValue);
-		console.log('xpath succeed');
+		// console.log(result.childNodes[0].nodeValue);
+		// console.log('xpath succeed');
 		return result.childNodes[0].nodeValue;
-	}
+	},
+   'xpath_getFloat': function(xml, xpath) {
+      return parseFloat(this.xpath_getFloat(xml, xpath));
+   },
+   'xpath_getInt': function(xml, xpath) {
+      return parseFloat(this.xpath_getInt(xml, xpath));
+   }
 }
