@@ -1,0 +1,23 @@
+<ApexInternetUsageMeter>
+   <Account>
+      <Username>username@apex.net.au</Username>
+      <Plan>TransHome-Explorer</Plan>
+      <Period>
+         <Start>20100401</Start>
+         <End>20100501</End>
+      </Period>
+   </Account>
+   <Usage>
+      <MeteredResult>
+         <meter>20000</meter>
+         <total>40000</total>
+         <remains>20000</remains>
+      </MeteredResult>
+      <UnmeteredResult>
+         <value>23</value>
+      </UnmeteredResult>
+      <TimeResult>
+         <value>699.13</value>
+      </TimeResult>
+   </Usage>
+</ApexInternetUsageMeter>

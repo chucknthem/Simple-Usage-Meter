@@ -1,0 +1,7 @@
+<ErrorResponse>
+   <Error>
+      <Type>Authentication</Type>
+      <Code>InvalidAuth</Code>
+      <Message>The username [snipped] was incorrect</Message>
+   </Error>
+</ErrorResponse>
