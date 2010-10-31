@@ -4,14 +4,17 @@
 
 function getDaysRemaining(plandate) {
 	var ONE_DAY = 86400000;
-	var ONE_MONTH = 2678400000;
 
 	var startDate = new Date(plandate);
 	var endDate = new Date(startDate.getTime() + ONE_MONTH);
-	var currDate = new Date(); currDate.setHours(0); currDate.setMinutes(0); currDate.setSeconds(0);
+	var endDate = new Date(
+         startDate.getFullYear(), 
+         startDate.getMonth() + 1,
+         startDate.getDate());
+   var currDate = new Date(); currDate.setHours(0); currDate.setMinutes(0); currDate.setSeconds(0);
 
-	var dayRemain = Math.ceil((endDate.getTime() - currDate.getTime()) / ONE_DAY);
-	return dayRemain;
+   var dayRemain = Math.ceil((endDate.getTime() - currDate.getTime()) / ONE_DAY);
+   return dayRemain;
 }
 
 /*
