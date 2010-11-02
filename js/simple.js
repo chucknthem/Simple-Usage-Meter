@@ -5,6 +5,7 @@ function c_loadjs(fname, load_call) {
 	escript.onload = load_call;
 	document.getElementsByTagName("head")[0].appendChild(escript);
 }
+
 function mkError(msg) {
 	var error = new Array();
 	error[0] = new Object();
@@ -399,3 +400,12 @@ function UsageParam(isp, username, password) {
 	}
 };
 
+/*
+ * This will be the new API where everything has to call SUP.foo(bar)
+ * but not everything uses the new API yet, so instead of
+ * defining everything here, we define them using the old method
+ * above and reference them here
+ */
+SUP = {
+   'mkError': mkError
+}
