@@ -36,7 +36,7 @@ function netspace_parseXML(text) {
 	var enddatestr = xml.documentElement.getAttribute('END_DATE');
 
 	if(!enddatestr) {
-		return mkError("END_DATE not found. invalid XML");
+		return SUM.mkError("END_DATE not found. invalid XML");
 	} 
 	enddatestr = enddatestr.split('-');
 
@@ -48,7 +48,7 @@ function netspace_parseXML(text) {
 	//normal limits
 	var limitNodes = xml.evaluate('/USAGE/PLAN/LIMIT', xml, null, XPathResult.ANY_TYPE, null);
 	if(!limitNodes) {
-		return mkError("invalid XML. /USAGE/PLAN/LIMIT not found");
+		return SUM.mkError("invalid XML. /USAGE/PLAN/LIMIT not found");
 	}
 
 	var blockLimits = xml.getElementsByTagName("DATABLOCKS");
@@ -69,9 +69,11 @@ function netspace_parseXML(text) {
 				xml, null, XPathResult.ANY_TYPE, null
 				).iterateNext();
 		if(!dataResults) {
-			return mkError("no usage data found for plan " + limitName + "\n");
+			return SUM.mkError("no usage data found for plan " + limitName + "\n");
 		}
+      // both downloads and uploads count on netspace (oct 2010)
 		var usagemb = parseInt(dataResults.getAttribute("DOWNLOADS"));
+		usagemb += parseInt(dataResults.getAttribute("UPLOADS"));
 
 		if(blockLimits) {
 			limitmb += netspace_getBlockLimits(limitName, blockLimits);

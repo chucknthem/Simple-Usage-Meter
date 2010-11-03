@@ -40,7 +40,7 @@ function apex_parseXML(text) {
 	// check if xml is an error page (not account page)
    var error = apex_getError(xml);
 	if (error) {
-		return SUP.mkError(error);
+		return SUM.mkError(error);
 	}
 
 	// get days remaining for billing cycle
@@ -50,7 +50,7 @@ function apex_parseXML(text) {
 	if (endDate) {
 		daysLeft = apex_getDaysLeft(xml);
 	} else {
-		return SUP.mkError("error: invalid xml. can't find days remaining, invalid xml?");
+		return SUM.mkError("error: invalid xml. can't find days remaining, invalid xml?");
 	}
 
    var planName = XML.xpath_getStr(xml, 

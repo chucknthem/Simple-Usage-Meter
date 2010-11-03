@@ -406,6 +406,6 @@ function UsageParam(isp, username, password) {
  * defining everything here, we define them using the old method
  * above and reference them here
  */
-SUP = {
+SUM = {
    'mkError': mkError
 }
