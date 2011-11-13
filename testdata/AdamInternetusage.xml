@@ -1,32 +1,59 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<?xml-stylesheet type="text/xsl" href="usage.xsl"?>
-  <Response>
-    <UsageMeter>
-      <Name>Adam Internet XML Usage Meter</Name>
-      <Version>2.1</Version>
-      <Disclaimer>XML Feed provided to you by Adam Internet to monitor your usage. This information is provided to you as a guide only and must not be relied upon as a commitment or authorative in nature.</Disclaimer>
-      <PreviousVersion>2.0</PreviousVersion>
-      <PreviousVersionURI>https://members.adam.com.au/um2.0/usage.xml</PreviousVersionURI>
-      <NextVersion></NextVersion>
-      <NextVersionURI></NextVersionURI>
-      <FrequentHitPenalty>0</FrequentHitPenalty>
-    </UsageMeter>
-    <Customer>
-      <Account type="ADSL" username="USERNAME">
-        <QuotaStartDate>2010-03-11</QuotaStartDate>
-        <PlanType>AdamDirect</PlanType>
-        <PlanSpeed>24000/1000</PlanSpeed>
-        <MegabyteQuota>30000</MegabyteQuota>
-        <MegabyteDatablocks>5000</MegabyteDatablocks> 	<!-- datablock -->
-        <NewsgroupQuota>40000</NewsgroupQuota>  <!-- silver newsgroup, standard = 10000 -->
-        <Usage>
-          <MegabytesDownloadedPeak>33201</MegabytesDownloadedPeak>
-          <MegabytesDownloadedOffPeak>27744</MegabytesDownloadedOffPeak>
-          <MegabytesUploadedTotal>6542</MegabytesUploadedTotal>
-          <MegabytesNewsgroupTotal>10977</MegabytesNewsgroupTotal>
-          <LastUsageUpdate>2010-04-08T14:59:41+09:30</LastUsageUpdate>  <!-- useful to check if offpeak has begun -->
-          <NextUsageUpdateEstimate>2010-04-08T16:49:09+09:30</NextUsageUpdateEstimate>
-        </Usage>
-      </Account>
-    </Customer>
-  </Response>
+<Response>
+  <ConnectionInformation>
+		<Name>
+			Third Party Developer Tools - Connection and Usage Information
+		</Name>
+		<Version>1.0</Version>
+		<Disclaimer>
+			XML Feed provided to you by Adam Internet to monitor your usage and online information. This information is provided to you as a guide only and must not be relied upon as a commitment or authorative in nature.
+		</Disclaimer>
+		<PreviousVersion>0.9</PreviousVersion>
+		<PreviousVersionURI>https://members.adam.com.au/api/usage-0.9.xml</PreviousVersionURI>
+		<NextVersion/>
+		<NextVersionURI/>
+	</ConnectionInformation>
+	<Customer description="USER">
+		<Account type="ADSL" username="USER">
+			<QuotaStartDate>2011-11-11T00:00:00+1030</QuotaStartDate>
+			<PlanName>AdamEzyChoice Naked 15GB</PlanName>
+			<PlanType>AdamNaked</PlanType>
+			<PlanSpeed>24000/1000</PlanSpeed>
+			<ByteQuota>15000000000</ByteQuota>
+			<NewsgroupByteQuota>20000000000</NewsgroupByteQuota>
+			<SessionStart>2011-11-11T20:48:57+1030</SessionStart>
+			<Usage>
+				<Bucket desc="Download">
+					<Quota units="B" startdatetime="2011-11-11T00:00:00+1030">15000000000</Quota>
+					<Datablocks units="B">0</Datablocks>
+					<Usage units="B">1185331771</Usage>
+				</Bucket>
+					<Bucket desc="Newsgroups">
+					<Quota units="B" startdatetime="2011-11-01T00:00:00+1030">20000000000</Quota>
+					<Usage units="B">0</Usage>
+				</Bucket>
+				<LastUsageUpdate>2011-11-12T11:49:49+1030</LastUsageUpdate>
+			</Usage>
+			<ADSL>
+				<SyncStatus>yes</SyncStatus>
+				<SyncUp/>
+				<SyncDown/>
+				<SNRUp/>
+				<SNRDown/>
+				<AttenuationUp/>
+				<AttenuationDown/>
+			</ADSL>
+			<IPAddresses>
+				<IPv4Address>314.159.265.358</IPv4Address>
+			</IPAddresses>
+			<DailySummary>
+			<Day date="2011-11-11T00:00:00+1030">
+				<Bucket desc="Download" units="B">942956878</Bucket>
+				<Terminations>2</Terminations>
+			</Day>
+			</DailySummary>
+		</Account>
+		<Account type="AdamTalk" username="USER">
+			<DID primary="true">0874236864</DID>
+		</Account>
+	</Customer>
+</Response>
