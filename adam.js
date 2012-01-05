@@ -6,15 +6,17 @@ function getDaysRemaining(plandate) {
 	var ONE_DAY = 86400000;
 
 	var startDate = new Date(plandate);
-	var endDate = new Date(startDate.getTime() + ONE_MONTH);
-	var endDate = new Date(
-         startDate.getFullYear(), 
-         startDate.getMonth() + 1,
-         startDate.getDate());
-   var currDate = new Date(); currDate.setHours(0); currDate.setMinutes(0); currDate.setSeconds(0);
+	// End date is the start date + 1 month. If in December (month 11) rollover to
+	// January in the following year.
+	if (startDate.getMonth() == 11)
+		var endDate = new Date(startDate.getFullYear()+1,0,startDate.getDate());
+	else
+		var endDate = new Date(startDate.getFullYear(),startDate.getMonth()+1, startDate.getDate());
+	
+	var currDate = new Date(); currDate.setHours(0); currDate.setMinutes(0); currDate.setSeconds(0);
 
-   var dayRemain = Math.ceil((endDate.getTime() - currDate.getTime()) / ONE_DAY);
-   return dayRemain;
+    	var dayRemain = Math.ceil((endDate.getTime() - currDate.getTime()) / ONE_DAY);
+    	return dayRemain;
 }
 
 /*
@@ -23,7 +25,7 @@ function getDaysRemaining(plandate) {
 
 function adam_getConfig() {
 	var cfg = {
-		url: "https://{USERNAME}:{PASSWORD}@members.adam.com.au/um2.1/usage.php",
+		url: "https://{USERNAME}:{PASSWORD}@members.adam.com.au/api/usage-1.0.php",
 		requestType: "GET",
 		requestParams: null
 	};
@@ -65,41 +67,36 @@ function adam_parseXML(text) {
 		
 	// evaluate main nodes
 	var node = xml.evaluate('/Response/Customer/Account', xml, null, XPathResult.ANY_TYPE, null).iterateNext();
-	var usageNode = xml.evaluate('/Response/Customer/Account/Usage', xml, null, XPathResult.ANY_TYPE, null).iterateNext();
+	var usageNode = node.getElementsByTagName("Usage")[0];
+	
+	// Show the first three bucket nodes. AdamEzyChoice doesn't have peak/offpeak, 
+	// but AdamSuperChoice does so we have to be somewhat flexible.
+	var bucketNodes = usageNode.getElementsByTagName("Bucket");
+	
+	// ISP says 1MB = 1000000 bytes.
+	var BYTES_PER_MB = (1000 * 1000);
+	
+	// fill in variables ready for simple.js
+	// Note: AdamEzyChoice plans don't have peak+offpeak anymore, but AdamSuperChoice does.
+	// To avoid having to write conditional code, just use the descriptions on the bucket nodes.
+	for (var i=0; i<bucketNodes.length; i++){
+		// Assumes all values are in bytes, so divide to get MB.
+	
+		// Newsgroups don't have a DataBlocks node.
+		var blockNodes = bucketNodes[i].getElementsByTagName("DataBlocks");
+		var dataBlocksMb = (blockNodes.length > 0 ? blockNodes[0].childNodes[0].nodeValue / BYTES_PER_MB : 0 );
 
-	// datablocks check
-	var datablockUsage = 0;
-	var rawDataBlock = node.getElementsByTagName("MegabyteDatablocks")[0].childNodes[0].nodeValue;
-	if (rawDataBlock) {
-		datablockUsage = parseInt(rawDataBlock, 10);
-	}	
-
-	// fill in variables ready for simple.js (peak)
-	results[0] = {
-		name: node.getElementsByTagName("PlanType")[0].childNodes[0].nodeValue + ' ' + node.getElementsByTagName("MegabyteQuota")[0].childNodes[0].nodeValue,
-		limit: parseInt(node.getElementsByTagName("MegabyteQuota")[0].childNodes[0].nodeValue, 10) + datablockUsage,
-		usagemb: parseInt(usageNode.getElementsByTagName("MegabytesDownloadedPeak")[0].childNodes[0].nodeValue, 10),
-		daysleft: daysLeft,
-		custom: false
-	};
-
-	// fill in variables ready for simple.js (off-peak)
-	results[1] = {
-		name: node.getElementsByTagName("PlanType")[0].childNodes[0].nodeValue + ' ' + node.getElementsByTagName("MegabyteQuota")[0].childNodes[0].nodeValue + ' (offpeak)',
-		limit: results[0]['limit'],
-		usagemb: parseInt(usageNode.getElementsByTagName("MegabytesDownloadedOffPeak")[0].childNodes[0].nodeValue, 10),
-		daysleft: daysLeft,
-		custom: false
-	};
-
-	// fill in variables ready for simple.js (newsgroup)
-	results[2] = {
-		name: 'Adam Newsgroup ' + node.getElementsByTagName("NewsgroupQuota")[0].childNodes[0].nodeValue,
-		limit: parseInt(node.getElementsByTagName("NewsgroupQuota")[0].childNodes[0].nodeValue, 10),
-		usagemb: parseInt(usageNode.getElementsByTagName("MegabytesNewsgroupTotal")[0].childNodes[0].nodeValue, 10),
-		daysleft: newsgroupDaysLeft,
-		custom: false
-	};
+		var dataUsageMb  = bucketNodes[i].getElementsByTagName("Usage")[0].childNodes[0].nodeValue / BYTES_PER_MB;
+		var dataQuotaMb = bucketNodes[i].getElementsByTagName("Quota")[0].childNodes[0].nodeValue / BYTES_PER_MB;
+		
+		results[i] = {
+			name:     bucketNodes[i].attributes['desc'].childNodes[0].nodeValue,
+			limit:    parseInt(dataQuotaMb + dataBlocksMb),
+			usagemb:  parseInt(dataUsageMb),
+			daysleft: daysLeft,
+			custom:   false
+		};
+	}
 
 	return results;
 }
