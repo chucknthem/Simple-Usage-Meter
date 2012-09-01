@@ -82,8 +82,8 @@ function adam_parseXML(text) {
 	for (var i=0; i<bucketNodes.length; i++){
 		// Assumes all values are in bytes, so divide to get MB.
 	
-		// Newsgroups don't have a DataBlocks node.
-		var blockNodes = bucketNodes[i].getElementsByTagName("DataBlocks");
+		// Newsgroups don't have a Datablocks node.
+		var blockNodes = bucketNodes[i].getElementsByTagName("Datablocks");
 		var dataBlocksMb = (blockNodes.length > 0 ? blockNodes[0].childNodes[0].nodeValue / BYTES_PER_MB : 0 );
 
 		var dataUsageMb  = bucketNodes[i].getElementsByTagName("Usage")[0].childNodes[0].nodeValue / BYTES_PER_MB;
