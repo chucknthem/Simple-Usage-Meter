@@ -5,6 +5,7 @@ Currently supports netspace, exetel, iiNet and aaNet
 
 VERSION HISTORY
 = 0.6 =
+ - Fixed typo in adam internet (thanks to Peter Saunders)
  - Support for Apex Internet
 = 0.5.4 = 
  - support for adam internet thanks to networkMe
